@@ -1,0 +1,441 @@
+/* --- Global Styles & Variables --- */
+:root {
+    --rich-brown: #6F4E37; /* Rich, dark coffee brown */
+    --warm-orange: #D2691E; /* A warm, inviting accent */
+    --cream-bg: #F5F5DC;    /* Creamy background */
+    --dark-text: #333333;
+    --light-text: #FFFFFF;
+    --font-heading: 'Playfair Display', serif;
+    --font-body: 'Montserrat', sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font-body);
+    background-color: var(--cream-bg);
+    color: var(--dark-text);
+    line-height: 1.6;
+}
+
+h1, h2, h3 {
+    font-family: var(--font-heading);
+    color: var(--rich-brown);
+    margin-bottom: 1rem;
+}
+
+.section-title {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+}
+
+/* --- Buttons --- */
+.btn {
+    display: inline-block;
+    padding: 0.8rem 1.5rem;
+    text-decoration: none;
+    border-radius: 25px;
+    font-weight: 700;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background-color: var(--warm-orange);
+    color: var(--light-text);
+}
+.btn-primary:hover {
+    background-color: var(--rich-brown);
+}
+
+.btn-secondary {
+    background-color: transparent;
+    color: var(--rich-brown);
+    border: 2px solid var(--rich-brown);
+}
+.btn-secondary:hover {
+    background-color: var(--rich-brown);
+    color: var(--light-text);
+}
+
+/* --- Navigation Bar --- */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 5%;
+   background-color: transparent;
+            position: absolute;
+            top: 0;
+            width: 100%;
+            z-index: 10;
+}
+
+.nav-brand a {
+    font-family: var(--font-heading);
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--rich-brown);
+    text-decoration: none;
+}
+
+.nav-menu {
+    display: flex;
+    list-style: none;
+    align-items: center;
+}
+
+.nav-item {
+    margin-left: 1.5rem;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: var(--dark-text);
+    font-weight: 700;
+    transition: color 0.3s ease;
+}
+.nav-link:hover, .nav-link.active {
+    color: var(--warm-orange);
+}
+
+.cta-button {
+    background-color: var(--warm-orange);
+    color: rgb(122, 80, 0);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+}
+.cta-button:hover {
+    color: rgb(255, 153, 0);
+    background-color: var(--rich-brown);
+}
+
+/* --- Hamburger Menu (for mobile) --- */
+.hamburger {
+    display: none;
+    cursor: pointer;
+}
+.bar {
+    display: block;
+    width: 25px;
+    height: 3px;
+    margin: 5px auto;
+    background-color: var(--rich-brown);
+    transition: all 0.3s ease-in-out;
+}
+
+/* --- Hero Section --- */
+.hero {
+    height: 80vh;
+    background: url('https://imgur.com/YXSJLdm.jpg') no-repeat center center/cover;
+    /* Overlay for text readability */
+    background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('https://imgur.com/4mt0hB1.jpg');
+    background-position: center 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: var(--light-text);
+}
+
+.hero-content h1 {
+    font-size: 3.5rem;
+    color: var(--light-text);
+    margin-bottom: 1rem;
+}
+.hero-content p {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+}
+
+/* --- Featured Products / Product Grid --- */
+.featured-products, .product-grid-container {
+    padding: 4rem 5%;
+    background-color: #a78156;
+}
+
+.product-carousel, .product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+}
+
+.product-card {
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    text-align: center;
+    padding: 1.5rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+
+.product-card img {
+    max-width: 100%;
+    height: 200px;
+    object-fit: contain;
+    margin-bottom: 1rem;
+}
+.product-card h3 {
+    font-size: 1.5rem;
+}
+.product-card p {
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+}
+
+/* --- Product Page --- */
+.page-header {
+    padding: 3rem 5%;
+    text-align: center;
+    background-color: #fff;
+}
+.page-header h1 {
+    font-size: 3rem;
+}
+.product-filters {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+.product-filters select {
+    padding: 0.5rem;
+    font-family: var(--font-body);
+    border: 2px solid var(--rich-brown);
+    border-radius: 5px;
+}
+
+/* --- Sustainability Section --- */
+.sustainability-section {
+    background: url('https://via.placeholder.com/1500x600/5a9c32/FFFFFF?text=Responsible+Sourcing') no-repeat center center/cover;
+    background-attachment: fixed; /* Parallax-like effect */
+    padding: 6rem 5%;
+    text-align: center;
+    color: var(--light-text);
+}
+
+.sustainability-content {
+    background-color: rgba(111, 78, 55, 0.8); /* Rich brown overlay */
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 3rem;
+    border-radius: 10px;
+}
+.sustainability-content h2 {
+    color: var(--light-text);
+}
+.sustainability-content .btn-primary {
+    background-color: var(--light-text);
+    color: var(--rich-brown);
+}
+.sustainability-content .btn-primary:hover {
+    background-color: var(--warm-orange);
+    color: var(--light-text);
+}
+
+/* --- Footer --- */
+/* GLOBAL RESET & FONT */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    /* Use Roboto if linked in HTML, otherwise a standard sans-serif */
+    font-family: 'Roboto', Arial, sans-serif;
+}
+
+/* -------------------------------------- */
+/* FOOTER STYLES */
+/* -------------------------------------- */
+
+/* Main Footer Container */
+.system-footer {
+    background-color: #3C2F2F; /* Deep Coffee Brown */
+    color: #F5F5DC; /* Cream/Beige Text */
+    padding: 30px 5%; /* Vertical and horizontal padding */
+    border-top: 3px solid #A0522D; /* Warm Accent line */
+}
+
+/* Header/Logo Section */
+.footer-header {
+    text-align: center;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.logo-text {
+    font-size: 1.8em;
+    font-weight: 700;
+    color: #FFD700; /* Gold Accent */
+}
+
+/* Three-Column Layout Container */
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto; /* Center the content */
+    flex-wrap: wrap; /* Allows columns to stack on smaller screens */
+    gap: 30px; /* Space between columns */
+}
+
+/* Individual Column Styling */
+.footer-column {
+    flex: 1; /* Makes columns grow equally */
+    min-width: 200px; /* Ensures they don't get too narrow */
+    line-height: 1.6;
+}
+
+/* Column Headings */
+.footer-column h4 {
+    color: #FFD700; /* Gold/Accent Color for headings */
+    margin-bottom: 15px;
+    font-size: 1.1em;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 5px;
+}
+
+/* General Text and Paragraphs */
+.footer-column p {
+    margin-bottom: 5px;
+    font-size: 0.95em;
+}
+
+.hours {
+    font-style: italic;
+    opacity: 0.8;
+    margin-top: 10px;
+}
+
+/* Link Styling (used in Quick Links and Legal Info) */
+.footer-column a {
+    color: #F5F5DC;
+    text-decoration: none; /* Remove underline */
+    display: block; /* Make links take up full line for easy clicking */
+    padding: 2px 0;
+    font-size: 0.95em;
+    transition: color 0.3s;
+}
+
+.footer-column a:hover {
+    color: #FFD700; /* Gold Hover effect */
+}
+
+/* Social Icon Placeholder Styling */
+.social-icons {
+    margin-top: 15px;
+}
+
+.social-icons .icon {
+    display: inline; /* Keep icons on one line */
+    padding: 0 5px;
+
+}
+
+/* Copyright Bar (bottommost section) */
+.footer-copyright {
+    text-align: center;
+    padding-top: 20px;
+    margin-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1); /* Subtle separator */
+    font-size: 0.85em;
+}
+
+/* Media Query for smaller screens (e.g., mobile) */
+@media (max-width: 768px) {
+    .footer-content {
+        flex-direction: column; /* Stack columns vertically */
+        align-items: center;
+        text-align: center;
+    }
+
+    .footer-column {
+        margin-bottom: 20px;
+        min-width: 100%; /* Take up full width */
+    }
+
+    .footer-column a {
+        display: inline-block; /* Switch links back to inline for a centered list feel */
+        margin: 0 10px;
+    }
+}
+.footer-legal {
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center; /* Centers the content */
+    padding-top: 20px;
+}
+
+.footer-legal p {
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: #bdc3c7; /* Slightly lighter text for the copyright */
+}
+
+.footer-legal a {
+    color: #bdc3c7;
+    text-decoration: none;
+    font-size: 14px;
+    margin: 0 10px;
+    transition: color 0.3s ease;
+}
+
+.footer-legal a:hover {
+    color: #ecf0f1; /* Lightens on hover */
+    text-decoration: underline;
+}
+/* --- Responsive Design --- */
+@media(max-width: 768px) {
+    .nav-menu {
+        position: fixed;
+        left: -100%;
+        top: 70px; /* Below navbar */
+        flex-direction: column;
+        background-color: #ffffff;
+        width: 100%;
+        height: 100vh;
+        text-align: center;
+        transition: 0.3s;
+    }
+
+    .nav-menu.active {
+        left: 0;
+    }
+
+    .nav-item {
+        margin: 2rem 0;
+    }
+    
+    .nav-link {
+        font-size: 1.2rem;
+    }
+
+    .hamburger {
+        display: block;
+    }
+
+    .hamburger.active .bar:nth-child(2) {
+        opacity: 0;
+    }
+    .hamburger.active .bar:nth-child(1) {
+        transform: translateY(8px) rotate(45deg);
+    }
+    .hamburger.active .bar:nth-child(3) {
+        transform: translateY(-8px) rotate(-45deg);
+    }
+
+    .hero-content h1 {
+        font-size: 2.5rem;
+    }
+}

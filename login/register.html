@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Register — Coffee Haven</title>
+  <link rel="stylesheet" href="../style.css">
+  <style>body{font-family:Montserrat,Arial,Helvetica,sans-serif;background:#fffaf6;color:#3b2f2f;padding:24px} .card{max-width:480px;margin:36px auto;padding:18px;background:#fff;border-radius:10px;box-shadow:0 8px 30px rgba(11,9,6,0.06)}</style>
+</head>
+<body>
+  <main class="card">
+    <h2>Create an account</h2>
+    <form id="reg-form">
+      <label>Full name<br><input id="name" required type="text"></label><br><br>
+      <label>Email<br><input id="email" required type="email"></label><br><br>
+      <label>Password<br><input id="password" required type="password"></label><br><br>
+      <div style="display:flex;gap:8px"><button type="submit" class="btn">Register</button><a href="login_local.html" style="align-self:center">Have an account? Log in</a></div>
+    </form>
+  </main>
+  <script>
+    async function fallbackCreateLocalUser(name,email,password){
+      try{
+        const users = JSON.parse(localStorage.getItem('coffeeHavenUsers')||'[]');
+        // prevent duplicate emails in local store
+        const exists = users.find(u=>u.email && u.email.toLowerCase()===String(email).toLowerCase());
+        if(exists) return { error: 'exists' };
+        const id = 'u-' + Date.now();
+        const username = String(name||'').trim().split(/\s+/).join('').toLowerCase() || ('u'+Date.now());
+        const user = { id, username, name, email, password, createdAt: new Date().toISOString() };
+        users.push(user);
+        localStorage.setItem('coffeeHavenUsers', JSON.stringify(users));
+        localStorage.setItem('coffeeHavenCurrentUser', JSON.stringify(user));
+        return user;
+      }catch(e){ console.error(e); return null; }
+    }
+
+    document.getElementById('reg-form').addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      const name=document.getElementById('name').value.trim();
+      const email=document.getElementById('email').value.trim();
+      const password=document.getElementById('password').value;
+
+      // try server API first (be tolerant of non-JSON or non-200 responses)
+      try{
+        const resp = await fetch('/coffee_haven/login/api_register.php', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ username: name, name: name, email: email, password: password })
+        });
+        if(resp && resp.ok){
+          const data = await resp.json().catch(()=>null);
+          if(data && data.ok){
+            const user = data.user; localStorage.setItem('coffeeHavenCurrentUser', JSON.stringify(user)); alert('Registered and logged in as ' + (user.username || user.email)); window.location.href = '/coffee_haven/login/profile.html'; return;
+          } else if(data && data.error === 'exists'){
+            alert('An account with that email already exists. Please login.'); window.location.href='login_local.html'; return;
+          } else {
+            console.warn('Register API returned unexpected payload', data);
+          }
+        } else {
+          // non-200 or CORS/404 — fall back to local registration
+          console.warn('Register API not available or returned non-OK status', resp && resp.status);
+        }
+      }catch(err){ console.warn('Register API failed, falling back to local create', err); }
+
+      // fallback to local storage account creation
+      const created = await fallbackCreateLocalUser(name,email,password);
+      if(created && created.error === 'exists'){
+        alert('An account with that email already exists. Please log in.'); window.location.href = 'login_local.html';
+      } else if(created){
+        // ensure downstream code sees a username property
+        created.username = created.username || (String(created.name||'').split(/\s+/).join('').toLowerCase());
+        localStorage.setItem('coffeeHavenCurrentUser', JSON.stringify(created));
+        alert('Registered locally and logged in as ' + (created.name||created.email)); window.location.href = '/coffee_haven/login/profile.html';
+      } else {
+        alert('Registration failed — please check console for details');
+      }
+    });
+  </script>
+</body>
+</html>

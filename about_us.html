@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Coffee Haven</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<style>
+    /* General Setup */
+body {
+    font-family: 'Poppins', Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background-color: #F8F5F2; /* Light creamy background */
+    color: #4A4A4A;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 0;
+}
+
+/* Header Styling */
+.page-header {
+    background: url('https://imgur.com/YXSJLdm.jpg') no-repeat center center/cover;
+    color: #FFFFFF;
+    padding: 60px 0;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.page-header h1 {
+    font-size: 2.5em;
+    font-weight: 700;
+    color: #ffffff;
+    margin: 0;
+}
+
+/* Section Headings */
+h2 {
+    font-size: 1.8em;
+    color: #8B4513; /* Saddle Brown */
+    border-bottom: 3px solid #D2B48C; /* Tan line under heading */
+    padding-bottom: 10px;
+    margin-top: 40px;
+}
+
+/* Philosophy Section and Product Cards */
+.philosophy-section {
+    padding: 30px 0;
+}
+
+.tagline {
+    font-size: 1.1em;
+    margin-bottom: 30px;
+}
+
+.product-showcase {
+    display: flex;
+    gap: 30px;
+    margin-top: 20px;
+    flex-wrap: wrap; /* Allows wrapping on smaller screens */
+}
+
+.product-card {
+    flex: 1;
+    min-width: 300px; /* Ensures they don't get too small */
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease-in-out;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+}
+
+.ritual {
+    background-color: #E8D5C4; /* Light Cream/Tan for the "Ritual" card */
+}
+
+.hustle {
+    background-color: #6F4E37; /* Coffee Brown for the "Hustle" card */
+    color: #FFFFFF;
+}
+
+.hustle h3 {
+    color: #FFD700; /* Gold accent for contrast */
+}
+
+.product-card h3 {
+    font-size: 1.5em;
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+.can-details {
+    list-style-type: none;
+    padding-left: 0;
+    margin-top: 15px;
+}
+
+.can-details li {
+    padding: 8px 0;
+    border-bottom: 1px dashed rgba(255, 255, 255, 0.5);
+}
+
+/* Commitment Section and Quote */
+.commitment-section {
+    margin-top: 40px;
+    padding: 30px 0;
+}
+
+.closing-quote {
+    font-size: 1.3em;
+    font-style: italic;
+    color: #8B4513;
+    border-left: 5px solid #D2B48C;
+    padding-left: 20px;
+    margin: 30px 0;
+    background-color: #FFF;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+/* Footer Styling */
+.page-footer {
+    background-color: #4A4A4A; /* Dark Grey */
+    color: #FFFFFF;
+    text-align: center;
+    padding: 15px 0;
+    font-size: 0.9em;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .product-showcase {
+        flex-direction: column;
+    }
+
+    .page-header h1 {
+        font-size: 2em;
+    }
+}
+/* Promo video overlay styles */
+.promo-wrapper{ max-width:1000px; margin:28px auto; position:relative; border-radius:12px; overflow:hidden; }
+.promo-video{ display:block; width:100%; height:auto; aspect-ratio:16/8; object-fit:cover; }
+.promo-overlay{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; pointer-events:auto; background: linear-gradient(180deg, rgba(0,0,0,0.28), rgba(0,0,0,0.18)); }
+.promo-play{ background:rgba(255,255,255,0.92); color:#2b1b10; border:0; padding:12px 18px; border-radius:999px; font-weight:800; cursor:pointer; box-shadow:0 12px 34px rgba(0,0,0,0.24); }
+.promo-play:hover{ transform:translateY(-3px); }
+@media (max-width:768px){ .promo-wrapper{ width:100%; } .promo-overlay{ padding:18px } }
+</style>
+<body>
+
+    <section class="page-header">
+        <nav class="navbar">
+            <div class="nav-brand">
+                <img src="https://i.imgur.com/OxQ011F.jpg" alt="Coffee Haven's Logo" class="rounded-circle me-2" style="width: 40px; height: 40px;">
+                <a href="index.html">Coffee Haven</a>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="my.html" class="nav-link">Home</a></li>
+             <div class="nav-actions">
+                <a href="login/logout.php" class="btn" style="text-decoration:none;">Log out</a>
+            </div>
+        </nav>
+
+        <div style="text-align:center; padding: 30px 0;">
+            <h1>About Us</h1>
+        </div>
+    </section>
+
+    <main class="container">
+        <section class="intro-section">
+            <p>At "Coffee Haven", our name is our promise. We strive to be your ultimate destination for high-quality coffee, whether you prefer the ritual of brewing your own perfect cup or the convenience of a delicious, grab-and-go energy boost. Every blend we create is crafted with care, passion, and the finest beans sourced from trusted growers. Our goal is to make every sip a moment of comfort, energy, and inspiration. With Coffee Haven, you’re not just drinking coffee — you’re experiencing quality in every cup. We are committed to delivering flavors that elevate your day and keep you coming back for more. Your perfect cup is always waiting at Coffee Haven.</p>
+        </section>
+        
+        <!-- Meet the Owners section (added) -->
+        <section class="owners-section" style="padding:30px 0; text-align:center;">
+            <h2 class="text-3xl font-bold text-blue-900 mb-8 text-center border-t pt-8" style="font-size:1.8rem; color:#2b1b10; margin-bottom:1rem; border-top:1px solid rgba(0,0,0,0.06); padding-top:1rem;">
+                Meet the Owners 🤝
+            </h2>
+            <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:48px;">
+                <div style="text-align:center; width:200px;">
+                    <img src="PICTURES/a8b63a15-546d-4c6f-86f6-c9947ee47718.jpg" alt="Owner 1 Name" style="width:200px; height:200px; border-radius:9999px; display:block; margin:0 auto 12px; object-fit:cover; border:4px solid #06b6d4; box-shadow:0 8px 26px rgba(0,0,0,0.14);">
+                    <h4 style="font-weight:700; font-size:1rem; margin:6px 0;">James Adrian Bibon</h4>
+                    <p style="font-size:0.95rem; color:#4a4a4a;">Founder &amp; Coder</p>
+                </div>
+
+                <div style="text-align:center; width:200px;">
+                    <img src="PICTURES/39accbba-93b8-4389-a4f9-1ef0c54b61a6.jpg" alt="Owner 2 Name" style="width:200px; height:200px; border-radius:9999px; display:block; margin:0 auto 12px; object-fit:cover; border:4px solid #3b82f6; box-shadow:0 8px 26px rgba(0,0,0,0.14);">
+                    <h4 style="font-weight:700; font-size:1rem; margin:6px 0;">Albert Aperin</h4>
+                    <p style="font-size:0.95rem; color:#4a4a4a;">Founder &amp; Designer</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="philosophy-section">
+            <h2>💖 Our Philosophy: Quality Meets Convenience</h2>
+            <p class="tagline">We understand that coffee lovers have different needs for different moments. That's why we've carefully curated a product line that delivers "exceptional taste" and "effor tless enjoyment" across the board:</p>
+            
+            <div class="product-showcase">
+                <div class="product-card ritual">
+                    <h3>The Ritual (Our Grounds & Beans)</h3>
+                    <p>For those who cherish the aroma and craft of brewing, our signature coffee bags contain meticulously sourced and roasted beans (or grounds). We provide the foundation for a rich, satisfying, and deeply flavorful cup right in your own home.</p>
+                </div>
+                
+                <div class="product-card hustle">
+                    <h3>The Hustle (Our Ready-to-Drink Cans)</h3>
+                    <p>For the moments when you need premium flavor on the move, our sleek, cold-brew cans are your perfect companion. We bring the high standards of the cafe directly to your hand.</p>
+                    
+                </div>
+            </div>
+        </section>
+
+        <section class="commitment-section">
+            <h2>🌟 Our Commitment to You</h2>
+            <p>Every product that carries the "Coffee Haven" logo is a testament to our commitment to excellence. We use "premium ingredients", ensure "consistent quality", and are dedicated to making gourmet coffee accessible, wherever your day takes you.</p>
+
+            <blockquote class="closing-quote">
+               “A perfect brews makes your day magical and every sip feels like a
+ heaven.”
+            </blockquote>
+        </section>
+    </main>
+    
+
+    <footer class="page-footer">
+        <p>&copy; 2025 Coffee Haven. All Rights Reserved.</p>
+    </footer>
+
+<script>
+    // Promo video overlay behavior: try autoplay, but show overlay if sound is blocked.
+    (function(){
+        try{
+            const video = document.getElementById('promo-video');
+            const overlay = document.getElementById('promo-overlay');
+            const btn = document.getElementById('promo-play');
+            if(!video || !overlay || !btn) return;
+
+            // Helper to hide overlay
+            function hideOverlay(){ overlay.style.display = 'none'; overlay.setAttribute('aria-hidden','true'); }
+            function showOverlay(){ overlay.style.display = 'flex'; overlay.setAttribute('aria-hidden','false'); }
+
+            // Attempt to play; if play is rejected or video is paused, show overlay
+            const tryPlay = async ()=>{
+                try{
+                    // Unmute only when user interacts — initially keep muted to let autoplay attempt silently
+                    // but attempt to play; many browsers will block autoplay with audio
+                    await video.play();
+                    // if video is playing and not paused, we still want to show overlay if sound isn't audible
+                    // show overlay if video is paused or volume is 0 (muted) or autoplay likely blocked
+                    if(video.paused || video.muted || video.volume === 0){ showOverlay(); }
+                    else { hideOverlay(); }
+                }catch(e){
+                    // autoplay blocked — show overlay for user to start with sound
+                    showOverlay();
+                }
+            };
+
+            // On page load try to play
+            tryPlay();
+
+            // When user clicks the overlay button: unmute, set volume, play, and hide overlay
+            btn.addEventListener('click', async (ev)=>{
+                try{
+                    video.muted = false;
+                    video.volume = 0.9;
+                    await video.play();
+                }catch(e){ /* ignore play errors */ }
+                hideOverlay();
+            });
+
+            // If user manually interacts with the video element (click) consider hiding overlay
+            video.addEventListener('play', ()=>{ if(!video.muted && video.volume>0) hideOverlay(); });
+            video.addEventListener('pause', ()=>{ showOverlay(); });
+        }catch(err){ console.error('promo overlay init', err); }
+    })();
+</script>
+
+</body>
+</html>

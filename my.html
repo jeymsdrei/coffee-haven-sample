@@ -1,0 +1,1446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>It all starts with a Coffee Haven</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        /* Additional styles for the video section and carousel */
+        
+        .video-section { padding: 36px 18px; background: linear-gradient(180deg,#fffaf6, #f5f0ea); display:flex; justify-content:center; }
+        /* Hero styles: bold, warm, and animated */
+        .hero{ padding:56px 18px; /* keep the background picture visible behind the hero content */
+            background: url('PICTURES/Screenshot 2025-11-04 002254.png') center/cover no-repeat; display:flex; align-items:center; justify-content:flex-start; position:relative; overflow:hidden; }
+        /* subtle left-side dark overlay so white text reads well on image */
+        .hero::before{ content:''; position:absolute; inset:0; background:linear-gradient(90deg, rgba(0,0,0,0.58) 0%, rgba(0,0,0,0.28) 40%, rgba(0,0,0,0.06) 75%, rgba(0,0,0,0) 100%); pointer-events:none; }
+        .hero-content{ max-width:760px; width:100%; display:flex; flex-direction:column; gap:16px; align-items:flex-start; padding:28px 48px; box-sizing:border-box; z-index:2; }
+        .hero-badge{ display:inline-block; background:linear-gradient(90deg,#8b5a36,#cfa67f); color:#fff; padding:8px 12px; border-radius:999px; font-weight:900; letter-spacing:0.6px; box-shadow:0 12px 30px rgba(139,90,54,0.12); }
+        /* make hero text white and high-contrast over the image */
+        .hero-content{ color: #ffffff; }
+        .hero-content h1{ margin:0; font-family:'Playfair Display', serif; font-size:48px; color:#ffffff; text-shadow:0 8px 28px rgba(0,0,0,0.6); line-height:1.02; }
+        /* Highlighted letters in hero heading — light sweep animation */
+        .hero-content h1{ position:relative; overflow:visible; }
+        .hero-letter{
+            display:inline-block;
+            padding:2px 4px;
+            margin:0 4px 0 0;
+            font-weight:800;
+            color:#ffffff;
+            -webkit-text-fill-color: #ffffff;
+            transition: transform .22s cubic-bezier(.2,.9,.2,1), text-shadow .22s;
+            text-shadow: 0 8px 28px rgba(0,0,0,0.6);
+        }
+        .hero-letter:hover{ transform:translateY(-6px) scale(1.02); text-shadow:0 12px 28px rgba(0,0,0,0.6); }
+        .hero-letter.space{ background:none; color:inherit; padding:0; margin-right:8px; box-shadow:none; -webkit-text-fill-color: initial; }
+        @media (max-width:900px){ .hero-letter{ padding:3px 4px; margin-right:3px; font-size:20px } }
+
+        @keyframes diagonal-sweep{
+            0%{ background-position: -150% -150%; }
+            100%{ background-position: 150% 150%; }
+        }
+        .hero-lead{ margin:0; color:rgba(255,255,255,0.92); font-size:18px; max-width:720px; }
+        /* Highlighted phrases inside hero lead */
+        .hero-lead .hero-quote-hl{ display:inline-block; padding:6px 8px; margin-right:6px; border-radius:8px; background:rgba(255,255,255,0.06); color:#fff; font-weight:800; transition:transform .22s cubic-bezier(.2,.9,.2,1), box-shadow .22s; }
+        .hero-lead .hero-quote-hl:hover{ transform:translateY(-6px) scale(1.02); box-shadow:0 18px 40px rgba(0,0,0,0.28); }
+        /* Highlight every letter in the hero lead sentence - diagonal light sweep */
+        .hero-lead .hero-quote-letter{
+            display:inline-block;
+            padding:0 2px;
+            margin-right:2px;
+            font-weight:700;
+            color:rgba(255,255,255,0.94);
+            -webkit-text-fill-color: rgba(255,255,255,0.94);
+            transition: transform .18s ease, text-shadow .18s ease;
+            text-shadow: 0 6px 18px rgba(0,0,0,0.45);
+        }
+        .hero-lead .hero-quote-letter:hover{
+            transform:translateY(-4px);
+            text-shadow:0 10px 24px rgba(0,0,0,0.5);
+        }
+        .hero-lead .hero-quote-letter.space{ padding:0; margin-right:6px; background:none; color:inherit; -webkit-text-fill-color: initial; }
+        .hero-ctas{ display:flex; gap:12px; margin-top:6px; }
+        .hero .btn-primary{ background:linear-gradient(90deg,#6b3e26,#8b5a36); padding:14px 18px; border-radius:12px; font-weight:900; box-shadow:0 14px 36px rgba(107,62,38,0.12); }
+        .hero .btn-ghost{ background:transparent; border:1px solid rgba(255,255,255,0.12); padding:12px 16px; border-radius:12px; color:#fff; }
+        /* Emphasize primary CTA and make both CTAs more eye-catching */
+        .hero-ctas .btn-primary{ transform:translateZ(0); transition:transform .18s ease, box-shadow .18s ease; box-shadow:0 18px 46px rgba(107,62,38,0.18); }
+        .hero-ctas .btn-primary:hover{ transform:translateY(-6px) scale(1.03); box-shadow:0 30px 70px rgba(107,62,38,0.22); }
+        .hero-ctas .btn-ghost{ position:relative; overflow:visible; transition:color .18s, transform .18s; }
+        .hero-ctas .btn-ghost::after{ content:''; position:absolute; left:12px; right:12px; bottom:-6px; height:4px; border-radius:6px; background:linear-gradient(90deg,#ffd8b6,rgba(255,216,182,0)); opacity:0.9; transform:scaleX(0); transform-origin:left center; transition:transform .24s ease; }
+        .hero-ctas .btn-ghost:hover{ transform:translateY(-4px); }
+        .hero-ctas .btn-ghost:hover::after{ transform:scaleX(1); }
+        .hero-ctas .guest-note{ margin-top:8px; color:#5b4637; font-size:14px; background:rgba(255,250,246,0.6); padding:8px 12px; border-radius:8px; display:inline-block; }
+        /* Decorative coffee bean shapes */
+        .hero-deco{ position:absolute; width:220px; height:120px; border-radius:60px 20px 60px 20px; background:linear-gradient(135deg,#8b5a36,#cfa67f); opacity:0.06; transform:rotate(-18deg); filter:blur(10px); pointer-events:none; }
+        .hero-deco.left{ left:-60px; top:10%; }
+        .hero-deco.right{ right:-60px; bottom:4%; transform:rotate(14deg); }
+        /* entrance animations */
+        .hero-content{ opacity:0; transform:translateY(14px); animation:hero-in 900ms cubic-bezier(.2,.9,.2,1) 200ms forwards; }
+        .hero-content h1{ opacity:0; transform:translateY(8px); animation:hero-in-title 900ms ease 300ms forwards; }
+        .hero-lead{ opacity:0; transform:translateY(8px); animation:hero-in-sub 900ms ease 380ms forwards; }
+        @keyframes hero-in{ to{ opacity:1; transform:none; } }
+        @keyframes hero-in-title{ to{ opacity:1; transform:none; } }
+        @keyframes hero-in-sub{ to{ opacity:1; transform:none; } }
+        @media (max-width:900px){ .hero-content h1{ font-size:32px; } .hero{ padding:36px 14px; } .hero-deco{ display:none; } .hero-content{ align-items:center; text-align:center; padding-left:28px; padding-right:28px; } }
+        .video-hero{ max-width:1000px; width:100%; margin:28px auto; position:relative; border-radius:16px; overflow:hidden; box-shadow:0 28px 60px rgba(11,9,6,0.14); border:6px solid rgba(255,255,255,0.03); transform:translateZ(0); transition:transform .36s ease, box-shadow .36s ease; }
+        .video-hero:hover{ transform:translateY(-8px); box-shadow:0 36px 80px rgba(11,9,6,0.18); }
+        .promo-video{ width:100%; height:100%; display:block; object-fit:cover; aspect-ratio:16/8; }
+        .video-overlay{ position:absolute; inset:0; display:flex; flex-direction:column; justify-content:center; align-items:center; gap:12px; padding:28px; background:linear-gradient(180deg, rgba(13,9,6,0.18) 0%, rgba(13,9,6,0.12) 45%, rgba(13,9,6,0.22) 100%); }
+        .video-overlay h2{ margin:0; color:#fff6eb; font-family:'Playfair Display', serif; font-size:36px; text-shadow:0 10px 30px rgba(0,0,0,0.45); display:inline-flex; align-items:center; gap:12px; }
+        .video-overlay h2 i{ font-size:22px; color:#ffd8b6; }
+        .video-overlay p{ margin:0; color:rgba(255,255,255,0.96); font-size:16px; max-width:740px; text-shadow:0 6px 18px rgba(0,0,0,0.3); }
+        .video-actions{ display:flex; gap:12px; margin-top:6px; }
+        .play-btn{ display:inline-flex; align-items:center; justify-content:center; gap:10px; background:linear-gradient(90deg, rgba(255,255,255,0.12), rgba(255,255,255,0.06)); color:#fff; border:0; padding:12px 18px; border-radius:999px; cursor:pointer; font-weight:900; box-shadow:0 8px 22px rgba(0,0,0,0.28); }
+        .play-btn i{ font-size:16px; }
+        .play-btn::after{ content:''; width:10px; height:10px; border-radius:50%; margin-left:6px; background:rgba(255,255,255,0.12); }
+        .play-btn.pulse{ animation:video-pulse 1800ms infinite ease-in-out; }
+        .mute-btn{ display:inline-flex; align-items:center; justify-content:center; gap:8px; background:rgba(255,255,255,0.08); color:#fff; border:0; padding:10px 12px; border-radius:999px; cursor:pointer; font-weight:800; box-shadow:0 6px 18px rgba(0,0,0,0.22); }
+        .mute-btn i{ font-size:14px; }
+        .mute-btn[aria-pressed="true"]{ background:rgba(255,255,255,0.95); color:#2b1b10; }
+        @keyframes video-pulse{ 0%{ transform:scale(1); } 50%{ transform:scale(1.03); } 100%{ transform:scale(1); } }
+        .video-overlay .btn-primary{ background: linear-gradient(90deg,#6b3e26,#8b5a36); color:#fff; padding:10px 14px; border-radius:10px; box-shadow:0 8px 20px rgba(107,62,38,0.12); border:0; text-decoration:none; }
+        @media (max-width:900px){ .video-overlay{ align-items:center; text-align:center; padding:18px; } .video-overlay h2{ font-size:28px; } .promo-video{ aspect-ratio:16/9; } }
+        /* Image section: full-width, centered, covers nicely + hero overlay */
+        .image-section{ width:100%; margin:0; padding:0; display:flex; justify-content:center; align-items:center; background:#f9f9f9; }
+        .image-section .full-width-image{ width:100%; height:auto; max-height:none; object-fit:contain; object-position:center; display:block; margin:0 auto; }
+
+        /* Enhanced image hero */
+        .image-hero{ position:relative; width:100%; overflow:hidden; display:block; }
+        /* show the entire image without cropping */
+        .image-hero .full-width-image{ display:block; width:100%; max-height:80vh; height:auto; object-fit:contain; object-position:center; transition:transform 600ms cubic-bezier(.2,.9,.2,1), filter 400ms ease; will-change:transform; background:#f9f9f9; }
+        .image-overlay{
+            position:absolute;
+            inset:0;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            pointer-events:none;
+            /* Layered background: base dim gradient + subtle animated diagonal brown sweep */
+            background-image:
+                linear-gradient(45deg, rgba(99,54,28,0.06) 0%, rgba(120,70,36,0.10) 40%, rgba(86,48,24,0.10) 62%, rgba(99,54,28,0.04) 85%),
+                linear-gradient(180deg, rgba(7,5,4,0.12), rgba(7,5,4,0.18));
+            background-size: 200% 200%, cover;
+            background-blend-mode: overlay;
+            opacity:0;
+            transform:translateY(6px);
+            /* entrance + slow decorative sweep */
+            animation: overlay-fade 800ms forwards 200ms, diagonal-sweep 8s linear infinite;
+        }
+        @keyframes overlay-fade{ to { opacity:1; transform:translateY(0); } }
+        .overlay-inner{ pointer-events:auto; text-align:center; color:#fff; padding:18px 22px; backdrop-filter: blur(4px) saturate(1.05); border-radius:12px; background: linear-gradient(180deg, rgba(11,9,6,0.18), rgba(11,9,6,0.26)); max-width:720px; box-shadow:0 18px 40px rgba(2,6,23,0.28); }
+        .overlay-inner h2{ margin:0 0 8px 0; font-family:'Playfair Display', serif; font-size:34px; color:#fff6eb; text-shadow:0 8px 20px rgba(0,0,0,0.45); }
+        .overlay-inner p{ margin:0 0 12px 0; color:rgba(255,255,255,0.92); font-size:16px; line-height:1.4; }
+        .overlay-cta{ display:inline-block; padding:10px 16px; border-radius:999px; font-weight:800; text-decoration:none; background:linear-gradient(90deg,#6b3e26,#8b5a36); color:#fff; box-shadow:0 10px 30px rgba(107,62,38,0.18); }
+        .overlay-cta:hover{ transform:translateY(-3px); filter:brightness(1.04); }
+
+        /* Decorative beans */
+        .bean-decor{ position:absolute; width:120px; height:60px; background:linear-gradient(135deg,#3f2a1f,#7c4a2f); border-radius:50% 50% 40% 60% / 60% 50% 50% 40%; opacity:0.12; filter:blur(6px); transform:rotate(-18deg); pointer-events:none; }
+        .bean-decor.left{ left:6%; bottom:10%; transform:rotate(-20deg) scale(1.05); }
+        .bean-decor.right{ right:6%; top:10%; transform:rotate(10deg) scale(1.1); }
+
+        /* Hover / interaction: subtle zoom on larger viewports */
+        @media (min-width:720px){
+            /* gentle lift instead of scale to avoid cropping when using contain */
+            .image-hero:hover .full-width-image{ transform:translateY(-6px); }
+        }
+
+        @media (max-width:900px){ .image-overlay{ align-items:center; text-align:center; padding:18px; } .overlay-inner h2{ font-size:24px; } .promo-video{ aspect-ratio:16/9; } }
+        .products-section {
+            padding: 100px 20px; /* Increased padding to make the section bigger */
+        }
+        .products-section .product-carousel {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .carousel-container {
+            display: flex;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            gap: 20px;
+            padding: 20px;
+            max-width: 100%;
+        }
+        .product-card {
+            flex: 0 0 420px; /* Slightly smaller cards for tighter layout */
+            text-align: center;
+        }
+        .product-card img {
+            width: 420px; /* Match new card width */
+            height: 300px;
+        }
+        /* Product card facelift */
+        .section-title{ font-family: 'Playfair Display', serif; font-size:32px; margin-bottom:18px; color:#3b2f2f; text-align:center; }
+        .product-card{ background: linear-gradient(180deg,#fffaf6, #fff7f0); border-radius:14px; padding:14px; box-shadow:0 8px 24px rgba(15,23,42,0.06); transition:transform .18s ease, box-shadow .18s ease; position:relative; overflow:hidden; }
+        .product-card:hover{ transform:translateY(-8px); box-shadow:0 18px 40px rgba(15,23,42,0.12); }
+        .product-card img{ width:100%; height:300px; object-fit:cover; border-radius:10px; box-shadow:0 6px 18px rgba(11,9,6,0.06); }
+        .product-card h3{ margin:12px 0 6px 0; font-size:18px; color:#2b1b10; }
+        .price-badge{ position:absolute; top:12px; right:12px; background:linear-gradient(90deg,#8b5a36,#cfa67f); color:#fff; padding:8px 10px; border-radius:10px; font-weight:800; box-shadow:0 8px 20px rgba(139,90,54,0.18); }
+        .label-new{ position:absolute; left:12px; top:12px; background:#ff7a00; color:#fff; padding:6px 8px; border-radius:8px; font-size:12px; font-weight:700; }
+        .btn-secondary{ background:transparent; border:1px solid rgba(43,27,16,0.08); padding:10px 12px; border-radius:10px; color:#3b2f2f; cursor:pointer; font-weight:700; }
+        .btn-secondary:hover{ background:rgba(107,62,38,0.06); }
+        .product-card .meta-row{ display:flex; justify-content:center; align-items:center; gap:8px; margin-top:10px; }
+        .carousel-btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            font-size: 18px;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1;
+        }
+        .prev-btn {
+            left: 10px;
+        }
+        .next-btn {
+            right: 10px;
+        }
+        .carousel-btn:hover {
+            background-color: #0056b3;
+        }
+        /* Carousel dot pagination */
+        .carousel-dots{ display:flex; justify-content:center; gap:8px; margin-top:12px; }
+        .carousel-dot{ width:10px; height:10px; border-radius:50%; background:#e6e6e6; border:0; padding:0; cursor:pointer; transition:transform .12s, background .12s; }
+        .carousel-dot.active{ background:var(--brand,#7c3aed); transform:scale(1.15); box-shadow:0 4px 10px rgba(0,0,0,0.08); }
+        /* Cart button styles (minimal) */
+        .nav-actions{ display:flex; align-items:center; gap:12px; }
+        .cart-btn{ display:inline-flex; align-items:center; gap:6px; background:transparent; border:none; color:#3b2f2f; text-decoration:none; padding:6px 8px; border-radius:8px; }
+        .signup-btn{ text-decoration:none; }
+        .profile-btn{ display:inline-flex; align-items:center; justify-content:center; width:40px; height:36px; border-radius:999px; background:linear-gradient(90deg,#6b3e26,#8b5a36); color:#fff; border:0; margin-left:6px; text-decoration:none; font-weight:800; }
+        .profile-btn span{ display:inline-flex; align-items:center; justify-content:center; width:36px; height:32px; border-radius:999px; font-size:14px; }
+        .profile-btn.guest{ background:linear-gradient(90deg, rgba(107,62,38,0.08), rgba(139,90,54,0.06)); color:#3b2f2f; border:1px solid rgba(43,27,16,0.06); }
+        /* Floating cart styles */
+        .floating-cart {
+            position: fixed;
+            right: 18px;
+            bottom: 18px;
+            z-index: 99999;
+            background: linear-gradient(90deg,#8b5a36,#6b3e26);
+            color: #fff;
+            padding: 10px 14px;
+            border-radius: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .floating-cart .cart-count { background:#fff; color:#6b3e26; font-weight:700; padding:4px 8px; border-radius:12px; }
+        /* Hide nav cart on wider screens once floating cart is present */
+        @media (min-width: 600px) {
+            .nav-actions .cart-btn { display: none; }
+        }
+        .cart-count{ background:#ff7a00; color:#fff; font-weight:700; font-size:12px; padding:2px 7px; border-radius:12px; min-width:20px; text-align:center; display:inline-block; }
+        .cart-count.hidden{ display:none; }
+        /* Cart notification animation */
+        .cart-btn.notify{ animation: cart-pop 700ms ease; }
+        @keyframes cart-pop{
+            0% { transform: translateY(0) scale(1); }
+            30% { transform: translateY(-6px) scale(1.08); }
+            60% { transform: translateY(0) scale(1.02); }
+            100% { transform: translateY(0) scale(1); }
+        }
+        /* Modal styles for product details */
+        .modal-overlay{ position:fixed; inset:0; background:rgba(0,0,0,0.6); display:none; align-items:center; justify-content:center; z-index:9999; }
+        .modal{ background:#412c01; width:90%; max-width:900px; border-radius:8px; box-shadow:0 10px 40px rgba(0,0,0,0.2); overflow:hidden; display:flex; gap:20px; }
+        .modal .modal-image{ flex:1; min-width:300px; max-height:520px; overflow:hidden; }
+        .modal .modal-image img{ width:100%; height:100%; object-fit:cover; }
+        .modal .modal-body{ flex:1; padding:20px; display:flex; flex-direction:column; gap:12px; color: #f7ecd8; }
+        .modal .modal-body h3{ margin:0; color: #fff6eb; }
+        .modal .modal-body p{ margin:0; color: #f7ecd8; }
+        .modal .modal-body strong, .modal .modal-body span { color: #f7ecd8; }
+        .modal .modal-body input, .modal .modal-body .qty-input { color: #3b2f2f; background: #fff6e8; border: 1px solid rgba(0,0,0,0.06); padding:6px; border-radius:4px; }
+        /* small transient notice next to cart button */
+        .nav-actions{ display:flex; align-items:center; gap:12px; position:relative; }
+        .cart-notice{ position:absolute; top:40px; right:0; background:var(--accent, #10b981); color:#fff; padding:6px 10px; border-radius:8px; font-size:13px; box-shadow:0 6px 20px rgba(2,6,23,0.08); opacity:0; transform:translateY(-6px); transition:opacity 220ms ease, transform 220ms ease; pointer-events:none; }
+        .cart-notice.visible{ opacity:1; transform:translateY(0); }
+        .modal .modal-actions{ margin-top:auto; display:flex; gap:8px; flex-wrap:wrap; }
+        .market-btn{ background:#111; color:#fff; border:none; padding:8px 12px; border-radius:6px; cursor:pointer; }
+        .market-btn.tiktok{ background:#010101; }
+        .market-btn.lazada{ background:#0066cc; }
+        .market-btn.shopee{ background:#ff5722; }
+        .close-modal{ background:transparent; border:none; font-size:20px; cursor:pointer; position:absolute; right:12px; top:8px; }
+        .modal-header{ position:relative; }
+        .qty-input{ width:80px; padding:6px; }
+        /* Payment modal specific styles */
+        .pay-methods { display:flex; gap:8px; margin-top:12px; }
+        .pay-method { padding:10px 14px; border-radius:6px; background:#efe6de; cursor:pointer; border:1px solid rgba(0,0,0,0.06); color:#3b2f2f; font-weight:700; display:inline-flex; align-items:center; gap:8px; }
+        .pay-method:hover { background:#efdccf; }
+        .pay-method .pm-icon { display:inline-flex; width:20px; height:20px; align-items:center; justify-content:center; }
+        .pay-method .pm-icon svg { width:20px; height:20px; display:block; }
+        .pay-method .pm-icon i { font-size:18px; color:#3b2f2f; line-height:1; }
+        .payment-success { padding:16px; background:#f7f3ea; border:1px solid #e6d8c1; border-radius:6px; color:#5a3b1a; font-weight:700; }
+
+        /* Coffee-vibe payment modal (light brown - chosen #d9b99a) */
+        .payment-modal {
+            background: linear-gradient(180deg, #f6eadc 0%, #d9b99a 50%, #cfa67f 100%);
+            border-radius:10px;
+            border: 1px solid rgba(107,62,38,0.16);
+        }
+        .payment-modal .modal-body { text-align:center; color: #2b1b10; }
+        .payment-modal .modal-body h3 { color: #2b1b10; }
+        .payment-modal .modal-body p { color: #2b1b10; }
+        .payment-modal .modal-body strong, .payment-modal .modal-body span { color: #2b1b10; }
+        .payment-modal #payment-info,
+        .payment-modal #payment-product-name,
+        .payment-modal #payment-marketplace,
+        .payment-modal #payment-price,
+        .payment-modal #payment-result { color: #2b1b10; }
+        .payment-modal .modal-header h3 { font-family: 'Playfair Display', serif; color: #3b2f2f; }
+        #marketplace-instructions { font-size:14px; color:#4b3421; text-align:center; }
+        #payment-open-marketplace { background: linear-gradient(90deg,#6b3e26,#8b5a36); border:none; padding:10px 14px; color:#fff; border-radius:6px; box-shadow: 0 6px 18px rgba(107,62,38,0.18); }
+        #payment-open-marketplace:hover { filter:brightness(1.03); }
+        .modal .pay-methods { justify-content:center; }
+        .payment-modal .pay-methods { justify-content:center; margin:12px auto; }
+        .payment-modal #payment-product-img { display:block; margin:10px auto; max-width:160px; border-radius:8px; }
+        .modal .pay-method { min-width:110px; }
+        /* Slightly dim and blur overlay for focus */
+        .modal-overlay { backdrop-filter: blur(4px); }
+
+        /* Sustainability / Grown Respectfully styles */
+        .sustainability-section { padding: 56px 20px; background: linear-gradient(180deg,#fffaf6, #f3efe7); }
+        .sustainability-container { max-width:1100px; margin:0 auto; display:grid; grid-template-columns: 1fr 1fr; gap:28px; align-items:center; }
+        .sustainability-left { padding: 18px 12px; }
+        .sustainability-left .section-title{ font-size:34px; margin-bottom:8px; color:#3b2f2f; }
+        .sustainability-left p{ color:#4b3a2b; font-size:16px; line-height:1.6; margin-bottom:14px; }
+        .sustainability-cta{ display:inline-flex; gap:10px; align-items:center; background:linear-gradient(90deg,#6b3e26,#8b5a36); color:#fff; padding:10px 16px; border-radius:10px; box-shadow:0 8px 24px rgba(107,62,38,0.12); text-decoration:none; font-weight:700; }
+
+        .sustainability-grid{ display:grid; grid-template-columns:repeat(1,1fr); gap:14px; }
+        .sustainability-card{ background:#fff; border-radius:12px; padding:14px; display:flex; gap:12px; align-items:flex-start; box-shadow:0 8px 20px rgba(15,23,42,0.04); }
+        .sustainability-card .icon{ width:48px; height:48px; border-radius:10px; background:linear-gradient(135deg,#ffe6d1,#f0d0b0); display:flex; align-items:center; justify-content:center; color:#6b3e26; font-size:20px; }
+        .sustainability-card h4{ margin:0 0 4px 0; font-size:16px; color:#2b1b10; }
+        .sustainability-card p{ margin:0; color:#67513f; font-size:14px; }
+
+        @media (max-width:900px){ .sustainability-container{ grid-template-columns:1fr; } .sustainability-grid{ grid-template-columns:repeat(2,1fr); } }
+        @media (max-width:520px){ .sustainability-grid{ grid-template-columns:1fr; } }
+
+        /* Footer revamp */
+        .system-footer{ background:#1e1b18; color:#efe7dd; padding:40px 18px; }
+        .footer-content{ max-width:1100px; margin:0 auto; display:grid; grid-template-columns:repeat(3,1fr); gap:18px; }
+        .footer-column h4{ color:#fff; margin-bottom:10px; }
+        .footer-column p, .footer-column a{ color:#d9cfc4; text-decoration:none; display:block; margin-bottom:6px; }
+        .footer-column a:hover{ color:#fff; }
+        .footer-legal{ text-align:center; margin-top:18px; color:#bfb6ad; font-size:13px; }
+        .social-row{ display:flex; gap:10px; margin-top:8px; }
+        .social-btn{ width:36px; height:36px; border-radius:8px; display:inline-flex; align-items:center; justify-content:center; background:#fff; color:#6b3e26; text-decoration:none; }
+        .newsletter { display:flex; gap:8px; margin-top:8px; }
+        .newsletter input{ padding:8px 10px; border-radius:8px; border:1px solid rgba(255,255,255,0.08); background:rgba(255,255,255,0.02); color:#efe7dd; }
+        .newsletter button{ padding:8px 10px; border-radius:8px; border:none; background:linear-gradient(90deg,#6b3e26,#8b5a36); color:#fff; cursor:pointer; }
+        @media (max-width:800px){ .footer-content{ grid-template-columns:1fr; } }
+    </style>
+</head>
+<body>
+
+    <header>
+        <nav class="navbar">
+            <div class="nav-brand">
+                <img src="https://i.imgur.com/OxQ011F.jpg" alt="Coffee Haven's Logo" class="rounded-circle me-2" style="width: 40px; height: 40px;">
+                <a href="index.html">Coffee Haven</a>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="#products" class="nav-link">Products</a></li>
+                <li class="nav-item"><a href="about_us.html" class="nav-link">About</a></li>
+             <div class="nav-actions">
+                <a href="cart.html" class="cart-btn" title="View cart">
+                    <li class="fas fa-shopping-cart"></li>
+                    <span class="cart-count">0</span>
+                </a>
+                <!-- Sign Up button (shown when not logged in) -->
+                <a id="signup-btn" class="btn btn-ghost signup-btn" href="login/login.php" style="text-decoration:none;">Sign Up</a>
+                <!-- Profile button (visible only when signed in) -->
+                <a id="profile-btn" class="profile-btn" href="login/profile.html" title="Profile" aria-hidden="true" style="display:none;">
+                    <span id="profile-initials">GH</span>
+                </a>
+                <a id="logout-link" href="login/logout.php" class="btn" style="text-decoration:none;">Log out</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero" aria-label="Welcome to Coffee Haven">
+            <div class="hero-deco left" aria-hidden="true"></div>
+            <div class="hero-deco right" aria-hidden="true"></div>
+            <div class="hero-content">
+                <span class="hero-badge">New Roast</span>
+                <h1>It all starts with    Coffee Haven.</h1>
+                <p class="hero-lead">“A perfect brew makes your day magical — every sip feels like a little moment of heaven.”</p>
+                <div class="hero-ctas">
+                    <a href="#products" class="btn btn-primary">Find Your Perfect Cup</a>
+                    <a href="about_us.html" class="btn btn-ghost">Our Story</a>
+                    <div class="guest-note" aria-hidden="true">Browse freely — explore products and checkout as a guest (no login required).</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- video section removed from here and moved below products -->
+
+        <section class="image-section image-hero">
+            <img class="full-width-image" src="PICTURES/Screenshot 2025-11-25 212802.png" alt="Coffee Story Image">
+
+            <div class="image-overlay" aria-hidden="false">
+                <div class="overlay-inner">
+                    <h2>From Bean to Cup</h2>
+                    <p>Discover our journey — small farms, big flavor in every sip.</p>
+                    <a href="about_us.html" class="btn btn-primary overlay-cta">Explore Our Story</a>
+                </div>
+
+        
+            <div class="bean-decor left" aria-hidden="true"></div>
+            <div class="bean-decor right" aria-hidden="true"></div>
+        </section>
+
+        <!-- Changed to products section with carousel functionality -->
+        <section id="products" class="products-section">
+            <h2 class="section-title">Our Products</h2>
+            <div class="product-carousel">
+                <button class="carousel-btn prev-btn">&lt;</button>
+                <div class="carousel-container">
+                    <div class="product-card">
+                        <img src="PICTURES/Screenshot 2025-11-20 221001.png" alt="Coffee Haven Nature Sweet">
+                        <h3>Coffee Haven Nature Sweet</h3>
+                        <div class="meta-row">
+                            <button class="btn btn-secondary learn-more" data-id="nature-sweet" data-name="Coffee Haven Nature Sweet" data-price="80" data-img="PICTURES/Screenshot 2025-11-20 221001.png" data-desc="A premium blend combining carefully selected coffee beans with natural herbal plants. This unique mix delivers a smooth, rich flavor while offering a healthier, aromatic coffee experience. Perfect for those who want a delicious cup with a touch of wellness."><i class="fa-solid fa-eye" aria-hidden="true"></i> View Details</button>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <img src="PICTURES/Screenshot 2025-11-20 235037.png" alt="Coffee Haven Classic">
+                        <h3>Coffee Haven Original - JAR (Granules)</h3>
+                        <div class="meta-row">
+                            <button class="btn btn-secondary learn-more" data-id="original" data-name="Coffee Haven Original" data-price="300" data-img="PICTURES/Screenshot 2025-11-20 235037.png" data-desc="A JAR of original, full-flavored coffee that started it all. Its rich aroma and bold taste make every cup a classic favorite for coffee lovers. Perfect for those who enjoy a timeless, satisfying coffee experience."><i class="fa-solid fa-eye" aria-hidden="true"></i> View Details</button>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <img src="PICTURES/Screenshot 2025-11-20 221019.png" alt="Coffee Haven Azera Americano">
+                        <h3>Coffee Haven Creamy Coffee</h3>
+                        <div class="meta-row">
+                            <button class="btn btn-secondary learn-more" data-id="creamy" data-name="Coffee Haven Creamy Coffee" data-price="80" data-img="PICTURES/Screenshot 2025-11-20 221019.png" data-desc="A barista-style instant coffee with a rich, velvety crema. Its smooth and indulgent flavor makes every cup feel like a café experience at home. Perfect for coffee lovers who enjoy a creamy, satisfying treat."><i class="fa-solid fa-eye" aria-hidden="true"></i> View Details</button>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <img src="PICTURES/Screenshot 2025-11-20 235049.png" alt="Coffee Haven Gold Blend">
+                        <h3>Coffee Haven Twin Pack Creamy Coffee</h3>
+                        <div class="meta-row">
+                            <button class="btn btn-secondary learn-more" data-id="twin-creamy" data-name="Twin Pack Creamy Coffee" data-price="20" data-img="PICTURES/Screenshot 2025-11-20 235049.png" data-desc="A premium blend of milk and coffee, delivering a smooth and rich taste. Packaged in a convenient twin sachet, it’s perfect for enjoying two cups of coffee anytime. Ideal for sharing or savoring a double serving of creamy indulgence."><i class="fa-solid fa-eye" aria-hidden="true"></i> View Details</button>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <img src="PICTURES/Screenshot 2025-11-20 235108.png" alt="Coffee Haven Gold Blend">
+                        <h3>Coffee Haven Twin Pack Original</h3>
+                        <div class="meta-row">
+                            <button class="btn btn-secondary learn-more" data-id="twin-original" data-name="Twin Pack Original" data-price="20" data-img="PICTURES/Screenshot 2025-11-20 235108.png" data-desc="The classic coffee that started it all, now in a convenient twin pack. Perfect for brewing two cups, it delivers the same rich, full-bodied flavor that coffee lovers have cherished for years. Ideal for sharing or enjoying a double serving of timeless coffee."><i class="fa-solid fa-eye" aria-hidden="true"></i> View Details</button>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <img src="PICTURES/Screenshot 2025-11-20 235128.png" alt="Coffee Haven Gold Blend">
+                        <h3>Coffee Haven Cappuccino Ready to Drink Coffee</h3>
+                        <div class="meta-row">
+                            <button class="btn btn-secondary learn-more" data-id="cappuccino" data-name="Cappuccino Ready to Drink" data-price="35" data-img="PICTURES/Screenshot 2025-11-20 235128.png" data-desc="Indulge in the smooth, velvety richness of a cool cappuccino. Delivers a smooth blend of rich espresso and creamy milk, crafted for a refreshing pick-me-up anytime, anywhere."><i class="fa-solid fa-eye" aria-hidden="true"></i> View Details</button>
+                        </div>
+                    </div>
+
+                    <!-- Additional product cards (new) -->
+                    <div class="product-card">
+                        <img src="PICTURES/Screenshot 2025-11-20 235143.png" alt="Coffee Haven Dark Roast">
+                        <h3>Coffee Haven Black Coffee Ready to Drink Coffee</h3>
+                        <div class="meta-row">
+                            <button class="btn btn-secondary learn-more" data-id="dark-roast" data-name="Coffee Haven Dark Roast" data-price="35" data-img="PICTURES/Screenshot 2025-11-20 235143.png" data-desc="A rich, full-bodied coffee with deep, smoky flavors and hints of chocolate. Perfect for those who enjoy a bold and intense coffee experience. Its robust aroma and smooth finish make every cup satisfying and memorable."><i class="fa-solid fa-eye" aria-hidden="true"></i> View Details</button>
+                        </div>
+                    </div>
+
+                    <div class="product-card">
+                        <img src="PICTURES/Screenshot 2025-11-20 235159.png" alt="Coffee Haven Special Blend">
+                        <h3>Coffee Haven Mocha Ready to Drink Coffee</h3>
+                        <div class="meta-row">
+                            <button class="btn btn-secondary learn-more" data-id="special-blend" data-name="Coffee Haven Special Blend" data-price="35" data-img="PICTURES/Screenshot 2025-11-20 235159.png" data-desc="A bright and balanced coffee with delightful fruity and floral notes. Its smooth, harmonious flavor makes every cup refreshing and aromatic. Perfect for those who enjoy a vibrant yet well-rounded coffee experience."><i class="fa-solid fa-eye" aria-hidden="true"></i> View Details</button>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <img src="PICTURES/Screenshot 2025-11-16 002309.png" alt="Coffee Haven Classic">
+                        <h3>Coffee Haven Classic Coffee</h3>
+                        <div class="meta-row">
+                            <button class="btn btn-secondary learn-more" data-id="limited-reserve" data-name="Original Flavor" data-price="75" data-img="PICTURES/Screenshot 2025-11-16 002309.png" data-desc="Seasonal reserve crafted from rare, carefully selected beans, delivering a velvety crema. Its rich and smooth taste offers a luxurious coffee experience in every cup. Perfect for savoring a premium, limited-edition brew."><i class="fa-solid fa-eye" aria-hidden="true"></i> View Details</button>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <img src="PICTURES/Screenshot 2025-11-26 030727.png" alt="Coffee Haven Original in Sachet">
+                        <h3>Coffee Haven Original in Sachet</h3>
+                        <div class="meta-row">
+                            <button class="btn btn-secondary learn-more" data-id="Original in Sachet" data-name="Coffee Haven Original in Sachet" data-price="4" data-img="PICTURES/Screenshot 2025-11-26 030727.png" data-desc="The classic, full-flavored coffee you love, now in a convenient single-serve stick. Each sachet delivers a rich aroma and bold taste, perfect for a quick and satisfying cup anytime. Ideal for enjoying the timeless flavor of Coffee Haven Original on the go."><i class="fa-solid fa-eye" aria-hidden="true"></i> View Details</button>
+                        </div>
+                    </div>
+                </div>
+                <button class="carousel-btn next-btn">&gt;</button>
+            </div>
+
+            <!-- Product details modal (hidden until opened) -->
+            <div class="modal-overlay" id="product-modal-overlay" aria-hidden="true">
+                <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-name">
+                    <div class="modal-image">
+                        <img id="modal-img" src="" alt="">
+                    </div>
+                    <div class="modal-body">
+                        <div class="modal-header">
+                            <h3 id="modal-name">Product Name</h3>
+                            <button class="close-modal" id="modal-close" aria-label="Close">&times;</button>
+                        </div>
+                        <p id="modal-desc">Product description</p>
+                        
+                        <label>Quantity: <input type="number" id="modal-qty" class="qty-input" value="1" min="1"></label>
+                        <div class="modal-actions">
+                            <button id="add-to-cart" class="market-btn">Add to Cart</button>
+                            <!-- Marketplace purchase buttons moved to the Cart page per request -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- Re-inserted video section below products -->
+        <section class="video-section">
+            <div class="video-hero">
+                <video id="promo-video" class="promo-video" autoplay muted loop playsinline preload="metadata" poster="PICTURES/Screenshot 2025-11-25 212802.png">
+                    <source src="ads.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <div class="video-overlay">
+                    <h2><i class="fa-solid fa-mug-hot" aria-hidden="true"></i> Our Story in a Cup</h2>
+                    <p>From bean to cup — see how our smallholder partners grow exceptional coffee with care and craft.</p>
+                    <div class="video-actions">
+                        <button id="play-btn" class="play-btn pulse"><i class="fa-solid fa-play" aria-hidden="true"></i> Watch</button>
+                        <button id="mute-btn" class="mute-btn" aria-pressed="false" title="Mute" aria-label="Mute"><i class="fa-solid fa-volume-high" aria-hidden="true"></i></button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="sustainability" class="sustainability-section">
+            <div class="sustainability-container">
+                <div class="sustainability-left">
+                    <h2 class="section-title">Grown Respectfully</h2>
+                    <p>We partner with smallholder farmers and invest in regenerative practices — so every cup supports people and planet. From shade-grown farms to recyclable packaging, our approach blends tradition with responsibility.</p>
+                    <a href="about_us.html" class="sustainability-cta">Our Commitments <span style="margin-left:8px; font-weight:900;">→</span></a>
+                </div>
+
+                <div class="sustainability-grid">
+                    <div class="sustainability-card">
+                        <div class="icon"><i class="fa-solid fa-seedling" aria-hidden="true"></i></div>
+                        <div>
+                            <h4>Regenerative Farming</h4>
+                            <p>Soil-first techniques and crop diversity that restore land health and yield better beans.</p>
+                        </div>
+                    </div>
+
+                    <div class="sustainability-card">
+                        <div class="icon"><i class="fa-solid fa-hand-holding-heart" aria-hidden="true"></i></div>
+                        <div>
+                            <h4>Fair Partnerships</h4>
+                            <p>Long-term support and fair pricing for the communities that grow our coffee.</p>
+                        </div>
+                    </div>
+
+                    <div class="sustainability-card">
+                        <div class="icon"><i class="fa-solid fa-recycle" aria-hidden="true"></i></div>
+                        <div>
+                            <h4>Thoughtful Packaging</h4>
+                            <p>Moving toward recyclable and low-waste solutions across our product lines.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="system-footer">
+        <div class="footer-content">
+            <div class="footer-column contact-info">
+                <h4>Contact & Location</h4>
+                <p><strong>Main Store:</strong> Zone4 Ket Saan, Tabaco City</p>
+                <p><strong>Phone:</strong> 09947991234</p>
+                <a href="mailto:coffeehaven@gmail.com" class="fas fa-envelope"> coffeehaven@gmail.com</a>
+                <div class="social-row">
+                    <a class="social-btn" href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a class="social-btn" href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a class="social-btn" href="#" aria-label="Tiktok"><i class="fa-brands fa-tiktok"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-column quick-links">
+                <h4>Explore</h4>
+                <a href="about_us.html">About Us</a>
+                <a href="#products">Our Products</a>
+                <a href="cart.html">Cart & Orders</a>
+                <a href="login/login.html">Account</a>
+            </div>
+
+            <div class="footer-column newsletter-col">
+                <h4>Stay in Touch</h4>
+                <p>Get offers, new drops, and sustainability updates.</p>
+                <div class="newsletter">
+                    <input type="email" placeholder="Your email" aria-label="Email address">
+                    <button type="button">Subscribe</button>
+                </div>
+                <p style="margin-top:10px; font-size:13px; color:#bfb6ad;">Secure checkout • Free local pickup</p>
+            </div>
+        </div>
+
+         <div class="footer-legal">
+
+            <p>&copy; 2025 Coffee Haven. All rights reserved.</p>
+
+        </div>
+    </footer>
+
+<script src="script.js"></script>
+<script src="cart.js"></script>
+    <script>
+        // Carousel functionality
+        const carousel = document.querySelector('.carousel-container');
+        const prevBtn = document.querySelector('.prev-btn');
+        const nextBtn = document.querySelector('.next-btn');
+
+        if (prevBtn && nextBtn && carousel) {
+            prevBtn.addEventListener('click', () => {
+                carousel.scrollBy({ left: -540, behavior: 'smooth' });
+            });
+
+            nextBtn.addEventListener('click', () => {
+                carousel.scrollBy({ left: 540, behavior: 'smooth' });
+            });
+        }
+
+        // Modal and product interactions
+        const learnButtons = document.querySelectorAll('.learn-more');
+        const overlay = document.getElementById('product-modal-overlay');
+        const modalImg = document.getElementById('modal-img');
+        const modalName = document.getElementById('modal-name');
+        const modalDesc = document.getElementById('modal-desc');
+        const modalPrice = document.getElementById('modal-price');
+        const modalQty = document.getElementById('modal-qty');
+        const addToCartBtn = document.getElementById('add-to-cart');
+        const closeBtn = document.getElementById('modal-close');
+        const buyTiktok = document.getElementById('buy-tiktok');
+        const buyLazada = document.getElementById('buy-lazada');
+        const buyShopee = document.getElementById('buy-shopee');
+        let currentProduct = null;
+
+        // Helper: compute total quantity across all cart items
+        function getTotalCartQuantity(){
+            try{
+                if(typeof CoffeeCart === 'undefined') return 0;
+                const cart = CoffeeCart.getCart() || [];
+                return cart.reduce((sum, it) => sum + (parseInt(it.quantity) || 0), 0);
+            }catch(e){ console.error(e); return 0; }
+        }
+
+        // Track last cart count so we can show a notification on increment
+        let lastCartCount = getTotalCartQuantity();
+        function updateCartCount() {
+            try {
+                const countEls = document.querySelectorAll('.cart-count');
+                const cartBtns = Array.from(document.querySelectorAll('.cart-btn')).concat(Array.from(document.querySelectorAll('.floating-cart')));
+                const newCount = getTotalCartQuantity();
+                if (countEls && countEls.length) {
+                    countEls.forEach(countEl => {
+                        countEl.textContent = newCount;
+                        if (newCount > 0) countEl.classList.remove('hidden'); else countEl.classList.add('hidden');
+                    });
+                }
+                // if increased, flash all cart buttons (nav and floating)
+                if (newCount > lastCartCount && cartBtns.length) {
+                    cartBtns.forEach(cb => {
+                        cb.classList.add('notify');
+                        setTimeout(() => cb.classList.remove('notify'), 800);
+                    });
+                }
+                lastCartCount = newCount;
+            } catch (e) { console.error(e); }
+        }
+
+        function openModal(data) {
+            currentProduct = data;
+            modalImg.src = data.img || '';
+            modalImg.alt = data.name || 'Product image';
+            modalName.textContent = data.name || '';
+            modalDesc.textContent = data.desc || '';
+            if (modalPrice) modalPrice.textContent = data.price || '0';
+            modalQty.value = 1;
+            overlay.style.display = 'flex';
+            overlay.setAttribute('aria-hidden', 'false');
+        }
+
+        function closeModal() {
+            overlay.style.display = 'none';
+            overlay.setAttribute('aria-hidden', 'true');
+            currentProduct = null;
+        }
+
+        learnButtons.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const el = e.currentTarget;
+                const data = {
+                    id: el.dataset.id,
+                    name: el.dataset.name,
+                    price: el.dataset.price,
+                    img: el.dataset.img,
+                    desc: el.dataset.desc || el.closest('.product-card')?.querySelector('p')?.textContent || ''
+                };
+                openModal(data);
+            });
+        });
+
+        closeBtn.addEventListener('click', closeModal);
+        overlay.addEventListener('click', (e) => { if (e.target === overlay) closeModal(); });
+
+        addToCartBtn.addEventListener('click', () => {
+            if (!currentProduct) return;
+            // Require users to be signed up/logged in before adding to cart
+            try {
+                const cu = getCurrentUser();
+                if (!cu) {
+                    // redirect to registration/login
+                    alert('Please sign up or log in before adding items to your cart.');
+                    window.location.href = '/coffee_haven/login/login.html';
+                    return;
+                }
+            } catch (e) { /* ignore */ }
+            const qty = parseInt(modalQty.value) || 1;
+            const item = {
+                id: currentProduct.id,
+                name: currentProduct.name,
+                price: parseFloat(currentProduct.price) || 0,
+                quantity: qty,
+                variant: '',
+                img: currentProduct.img || ''
+            };
+            try {
+                CoffeeCart.addItem(item);
+                updateCartCount();
+                closeModal();
+                showCartNotice('Added to cart');
+            } catch (err) {
+                console.error(err);
+                alert('Unable to add to cart');
+            }
+        });
+
+        // Payment flow for marketplace purchases (in-page)
+        // Insert payment modal markup into the DOM
+        const paymentOverlayHtml = `
+            <div class="modal-overlay" id="payment-modal-overlay" aria-hidden="true" style="display:none;">
+                <div class="modal payment-modal" role="dialog" aria-modal="true">
+                    <div class="modal-body">
+                        <div class="modal-header">
+                            <h3 id="payment-title">Complete Purchase</h3>
+                            <button class="close-modal" id="payment-close" aria-label="Close">&times;</button>
+                        </div>
+                        <!-- product image added -->
+                        <img id="payment-product-img" src="" alt="Product image" />
+                        <p id="payment-info">Buying <strong id="payment-product-name"></strong> via <strong id="payment-marketplace"></strong></p>
+                        
+
+                        <!-- Marketplace specific instructions (removed content per request) -->
+                        <div id="marketplace-instructions" style="margin-top:8px; color:#222"></div>
+
+                        <div style="margin-top:12px; display:flex; gap:8px; align-items:center; flex-wrap:wrap; justify-content:center;">
+                            <div class="pay-methods" id="pay-methods">
+                                <button class="pay-method" data-method="gcash">
+                                    <span class="pm-icon" aria-hidden="true"><i class="fa-solid fa-wallet"></i></span>
+                                    GCash
+                                </button>
+                                <button class="pay-method" data-method="card">
+                                    <span class="pm-icon" aria-hidden="true"><i class="fa-regular fa-credit-card"></i></span>
+                                    Credit Card
+                                </button>
+                                <button class="pay-method" data-method="cod">
+                                    <span class="pm-icon" aria-hidden="true"><i class="fa-solid fa-truck"></i></span>
+                                    Cash on Delivery
+                                </button>
+                            </div>
+                        </div>
+
+                        <div id="payment-result" style="margin-top:12px;"></div>
+                    </div>
+                </div>
+            </div>`;
+
+        document.body.insertAdjacentHTML('beforeend', paymentOverlayHtml);
+        const paymentOverlay = document.getElementById('payment-modal-overlay');
+        const paymentClose = document.getElementById('payment-close');
+        const paymentProductName = document.getElementById('payment-product-name');
+        const paymentMarketplace = document.getElementById('payment-marketplace');
+        const paymentPrice = document.getElementById('payment-price');
+        const paymentResult = document.getElementById('payment-result');
+        const paymentProductImg = document.getElementById('payment-product-img');
+        const marketplaceInstructions = document.getElementById('marketplace-instructions');
+
+        // Placeholder marketplace URLs — replace with your actual product links
+        const MARKET_URLS = {
+            'TikTok': 'https://www.tiktok.com/shop',
+            'Lazada': 'https://www.lazada.com.ph',
+            'Shopee': 'https://shopee.ph'
+        };
+
+        function openPaymentModal(marketplace) {
+            if (!currentProduct) return;
+            paymentProductName.textContent = currentProduct.name || '';
+            paymentMarketplace.textContent = marketplace || '';
+            paymentPrice.textContent = currentProduct.price || '0';
+            paymentResult.innerHTML = '';
+
+            // Marketplace-specific instructions
+            if (marketplace === 'TikTok' || marketplace === 'Lazada' || marketplace === 'Shopee') {
+                // no external instructions or Open Marketplace button per request
+                marketplaceInstructions.innerHTML = '';
+            } else {
+                marketplaceInstructions.innerHTML = '';
+            }
+
+            // set product image in the payment modal
+            if (paymentProductImg) {
+                paymentProductImg.src = currentProduct.img || '';
+                paymentProductImg.alt = currentProduct.name || 'Product image';
+                if (!currentProduct.img) paymentProductImg.style.display = 'none'; else paymentProductImg.style.display = 'block';
+            }
+
+            paymentOverlay.style.display = 'flex';
+            paymentOverlay.setAttribute('aria-hidden', 'false');
+        }
+
+        function closePaymentModal() {
+            paymentOverlay.style.display = 'none';
+            paymentOverlay.setAttribute('aria-hidden', 'true');
+        }
+
+        paymentClose.addEventListener('click', closePaymentModal);
+        paymentOverlay.addEventListener('click', (e) => { if (e.target === paymentOverlay) closePaymentModal(); });
+
+        // Delegate pay method clicks (in-page simulated payment)
+        // helper: current user & orders helpers
+        function getCurrentUser(){ try { return JSON.parse(localStorage.getItem('coffeeHavenCurrentUser')||'null'); } catch(e){ return null; } }
+        function setCurrentUser(u){ localStorage.setItem('coffeeHavenCurrentUser', JSON.stringify(u)); }
+        function saveOrder(order){ try{ const arr = JSON.parse(localStorage.getItem('coffeeHavenOrders')||'[]');
+            // ensure order is associated with current user when possible and attach address/marketplaces
+            try{
+                const cu = getCurrentUser();
+                if(cu){ if(cu.id && !order.userId) order.userId = cu.id; if(cu.address && !order.address) order.address = cu.address; }
+                if(!order.marketplaces){ try{ const mk = (order.items||[]).map(i=>i.marketplace).filter(Boolean); order.marketplaces = Array.from(new Set(mk.map(s=>String(s).toLowerCase()))); }catch(e){ order.marketplaces = []; } }
+            }catch(e){}
+            arr.push(order); localStorage.setItem('coffeeHavenOrders', JSON.stringify(arr)); return true; }catch(e){ console.error(e); return false; } }
+
+        document.getElementById('pay-methods').addEventListener('click', (e) => {
+            const btn = e.target.closest('.pay-method');
+            if (!btn) return;
+            // require login/signup before in-page payment
+            try{
+                if(!getCurrentUser()){
+                    const root = document.getElementById('payment-result');
+                    if(root) root.innerHTML = '<div style="color:#b91c1c">Please sign up or log in to complete the purchase. Redirecting to login...</div>';
+                    setTimeout(()=> window.location.href = '/coffee_haven/login/login.html', 900);
+                    return;
+                }
+            }catch(e){}
+            const method = btn.dataset.method;
+            paymentResult.innerHTML = '<div class="payment-success">Processing payment via ' + method.toUpperCase() + '...</div>';
+            setTimeout(async () => {
+                // build a minimal order from the current product
+                const order = {
+                    id: 'ord-' + Date.now(),
+                    items: [
+                        {
+                            id: currentProduct?.id || ('prod-'+Date.now()),
+                            name: currentProduct?.name || 'Product',
+                            price: parseFloat(currentProduct?.price) || 0,
+                            quantity: 1,
+                            img: currentProduct?.img || ''
+                        }
+                    ],
+                    total: parseFloat(currentProduct?.price) || 0,
+                    date: new Date().toISOString(),
+                        marketplace: method || 'unknown'
+                };
+
+                // save order (include payment method)
+                order.paymentMethod = method || 'unknown';
+                    // aggregate marketplaces from items (if any)
+                    try{ const mk = (order.items||[]).map(i=>i.marketplace).filter(Boolean); order.marketplaces = Array.from(new Set(mk.map(s=>String(s).toLowerCase()))); }catch(e){ order.marketplaces = []; }
+                // try to persist to server; include user's address when possible; fall back to localStorage
+                try {
+                    // attach current user's address if available
+                    try{ const cu = getCurrentUser(); if(cu && cu.address) order.address = cu.address; }catch(e){}
+                    const resp = await fetch('/coffee_haven/login/save_order.php', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ items: order.items, total: order.total, method: order.paymentMethod, address: order.address || null, marketplaces: order.marketplaces || [] })
+                    });
+                    const data = await resp.json().catch(() => null);
+                    if (data && data.ok) {
+                        order.id = data.order_id || order.id;
+                        order.userId = data.user_id || null;
+                        // persist server-confirmed order locally for Recent Orders
+                        try{ saveOrder(order); }catch(e){}
+                    } else {
+                        // server returned error or invalid response
+                        saveOrder(order);
+                    }
+                } catch (err) {
+                    // network or server error — persist locally
+                    console.warn('Order POST failed, saving locally', err);
+                    saveOrder(order);
+                }
+
+                // Do not create guest accounts. Use existing logged-in user if present.
+                let user = getCurrentUser();
+
+                // Render a receipt inside the payment modal
+                                const receiptHtml = `
+                                        <div style="font-family: Arial, Helvetica, sans-serif; color:#2b1b10;">
+                                                    <style>
+                                                    .rcpt { max-width:640px; margin:0 auto; text-align:center }
+                                                    .rcpt-header{ display:flex; align-items:center; justify-content:space-between; gap:12px; border-bottom:1px solid #f1e6de;padding-bottom:12px;margin-bottom:12px }
+                                                    .rcpt-brand{ display:flex; gap:12px; align-items:center }
+                                                    .rcpt-brand img{ width:52px;height:52px;border-radius:10px;object-fit:cover }
+                                                    .rcpt-title{ font-family:'Playfair Display', serif; font-size:18px; color:#3b2f2f; font-weight:700 }
+                                                    .rcpt-meta{ color:#7a5a43; font-size:13px }
+                                                    .rcpt-body{ background:linear-gradient(180deg,#fffaf6,#fff7f0); padding:12px;border-radius:8px; text-align:left }
+                                                    .rcpt-item{ display:flex; gap:10px; align-items:center; padding:8px 0; border-bottom:1px dashed #efe2d6 }
+                                                    .rcpt-item:last-child{ border-bottom:none }
+                                                    .rcpt-thumb{ width:48px;height:48px;border-radius:8px;background:#fff;overflow:hidden }
+                                                    .rcpt-thumb img{ width:100%;height:100%;object-fit:cover }
+                                                    .rcpt-name{ font-weight:700 }
+                                                    .rcpt-qty{ color:#7a5a43; font-size:13px }
+                                                    .rcpt-price{ margin-left:auto; font-weight:800; color:#6b3e26 }
+                                                    .rcpt-pay{ background:#ffe7cc;color:#6b3e26;padding:6px 10px;border-radius:8px;font-weight:800 }
+                                                    .rcpt-thanks{ color:#7a5a43; font-size:13px }
+                                                    @media print{ .modal-overlay{ background:transparent !important } }
+                                                                        @media print{ .rcpt-brand img{ width:40px !important; height:40px !important; } }
+                                                </style>
+
+                                                <div class="rcpt">
+                                                    <div class="rcpt-header" style="justify-content:center;flex-direction:column;gap:6px;">
+                                                        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%">
+                                                            <div style="display:flex;gap:12px;align-items:center">
+                                                                <img src="https://i.imgur.com/OxQ011F.jpg" alt="Coffee Haven logo" style="width:52px;height:52px;border-radius:8px;object-fit:cover">
+                                                                <div style="text-align:left">
+                                                                    <div class="rcpt-title">Coffee Haven</div>
+                                                                    <div style="font-size:12px;color:#8b6b52">Receipt</div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="rcpt-meta">${new Date().toLocaleString()}</div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:6px;text-align:left">
+                                                        <div><strong>Customer:</strong> ${(user.name||'Guest')}</div>
+                                                        <div><strong>Address:</strong> ${(user.address||'Not provided')}</div>
+                                                    </div>
+
+                                                    <div style="margin-bottom:10px;text-align:left">
+                                                        <strong>Product bought:</strong>
+                                                        <div style="margin-top:8px">${order.items && order.items.length ? `<div style="display:flex;align-items:center;gap:8px"><img src="${order.items[0].img||''}" style="width:56px;height:56px;border-radius:8px;object-fit:cover"> <span style="font-weight:800">${order.items[0].name}</span> — <span style="color:#7a5a43">Qty: ${order.items[0].quantity}</span></div>` : '—'}</div>
+                                                    </div>
+
+                                                    <div class="rcpt-body">
+                                                        ${order.items.map(it=>`
+                                                            <div class="rcpt-item">
+                                                                <div style="flex:1; min-width:160px; text-align:left">
+                                                                    <div class="rcpt-name">${it.name}</div>
+                                                                    <div class="rcpt-qty">Qty: ${it.quantity}</div>
+                                                                </div>
+                                                                <div class="rcpt-price">₱${parseFloat(it.price).toFixed(2)}</div>
+                                                            </div>
+                                                        `).join('')}
+                                                    </div>
+
+                                                    <div class="rcpt-footer" style="align-items:center;gap:12px;flex-direction:column;display:flex;margin-top:12px;">
+                                                        <div style="width:100%;display:flex;justify-content:space-between;align-items:center;gap:12px;">
+                                                            <div class="rcpt-thanks">Thanks for your purchase — enjoy every sip!</div>
+                                                            <div style="display:flex;align-items:center;gap:8px">
+                                                                <div class="rcpt-pay">${method ? method.toUpperCase() : 'UNKNOWN'}</div>
+                                                                <button id="rcpt-print" style="background:#6b3e26;color:#fff;border:0;padding:8px 10px;border-radius:8px;cursor:pointer;font-weight:800">Print Receipt</button>
+                                                            </div>
+                                                        </div>
+                                                        <div style="width:100%;margin-top:10px;color:#7a5a43;font-size:13px;text-align:left">Marketplaces: ${(order.marketplaces && order.marketplaces.length) ? order.marketplaces.map(s=>{ if(s==='tiktok') return 'TikTok'; if(s==='lazada') return 'Lazada'; if(s==='shopee') return 'Shopee'; return s; }).join(', ') : 'None'}</div>
+                                                    </div>
+                                                </div>
+                                        </div>`;
+
+                paymentResult.innerHTML = receiptHtml;
+                // attach a print button handler so users can print the receipt directly
+                setTimeout(()=>{
+                    const printBtn = document.getElementById('rcpt-print');
+                    if(printBtn){
+                        printBtn.addEventListener('click', ()=>{
+                            const rcpt = paymentResult.querySelector('.rcpt');
+                            if(!rcpt) return;
+                            const w = window.open('','_blank');
+                            const html = `<html><head><title>Receipt</title><meta charset="utf-8"><style>body{font-family:Arial,Helvetica,sans-serif;padding:20px;color:#2b1b10} .rcpt{max-width:720px;margin:0 auto} @media print{ #rcpt-print{ display:none !important; } .rcpt-brand img{ width:40px !important; height:40px !important; } }</style></head><body>${rcpt.outerHTML}</body></html>`;
+                            w.document.write(html);
+                            w.document.close();
+                            w.focus();
+                            setTimeout(()=>{ w.print(); }, 300);
+                        });
+                    }
+                }, 50);
+                // users can use the browser Print feature or close the modal by clicking outside
+            }, 900);
+        });
+
+        // marketplace buttons were moved to Cart; product modal no longer has direct marketplace buys
+
+        // Initialize cart count on page load
+        updateCartCount();
+
+        // React to cart updates dispatched by `cart.js` (same-tab) and to storage events (cross-tab)
+        window.addEventListener('cartUpdated', (e) => {
+            try { updateCartCount(); } catch (err) { console.error(err); }
+        });
+
+        window.addEventListener('storage', (e) => {
+            try {
+                if (e.key === 'coffeeHavenCart') updateCartCount();
+            } catch (err) { console.error(err); }
+        });
+
+        // Transient cart notice logic
+        let cartNoticeTimer = null;
+        function showCartNotice(text, duration = 1800){
+            try{
+                const el = document.getElementById('cart-notice');
+                if(!el) return;
+                el.textContent = text || 'Added to cart';
+                el.classList.add('visible');
+                el.setAttribute('aria-hidden', 'false');
+                // clear previous timer
+                if(cartNoticeTimer) clearTimeout(cartNoticeTimer);
+                cartNoticeTimer = setTimeout(()=>{
+                    el.classList.remove('visible');
+                    el.setAttribute('aria-hidden', 'true');
+                    cartNoticeTimer = null;
+                }, duration);
+            }catch(e){console.error(e)}
+        }
+
+        // Create a floating cart button (cloned from nav cart) and keep counts in sync
+        (function createFloatingCart(){
+            try{
+                // avoid creating multiple times
+                if(document.querySelector('.floating-cart')) return;
+                const navCart = document.querySelector('.cart-btn');
+                if(!navCart) return;
+
+                // clone and style
+                const floatBtn = navCart.cloneNode(true);
+                floatBtn.classList.add('floating-cart');
+                floatBtn.setAttribute('aria-label', 'View cart');
+
+                // append to body
+                document.body.appendChild(floatBtn);
+
+                // hide original nav cart on small viewports as a fallback
+                function updateNavCartVisibility(){
+                    const navCartEl = document.querySelector('.nav-actions .cart-btn');
+                    if(!navCartEl) return;
+                    if(window.innerWidth >= 600) navCartEl.style.display = 'none'; else navCartEl.style.display = '';
+                }
+                updateNavCartVisibility();
+                window.addEventListener('resize', updateNavCartVisibility);
+
+                // sync cart counts between nav and floating button
+                function syncCartCount(){
+                    try{
+                        const navCountEl = document.querySelector('.nav-actions .cart-count');
+                        const floatCountEl = floatBtn.querySelector('.cart-count');
+                        if(!floatCountEl) return;
+                        const newVal = (navCountEl && navCountEl.textContent) ? navCountEl.textContent : '0';
+                        floatCountEl.textContent = newVal;
+                        if(parseInt(newVal) > 0) floatCountEl.classList.remove('hidden'); else floatCountEl.classList.add('hidden');
+                    }catch(e){console.error(e)}
+                }
+
+                // initial sync
+                syncCartCount();
+                // listen for custom cart events and storage updates
+                window.addEventListener('cartUpdated', syncCartCount);
+                window.addEventListener('storage', (e) => { if(e.key === 'coffeeHavenCart') syncCartCount(); });
+
+            }catch(err){ console.error('floating cart init error', err); }
+        })();
+
+        // Video hero controls: play/pause toggle and button label
+        (function initVideoHero(){
+            try{
+                const video = document.getElementById('promo-video');
+                const playBtn = document.getElementById('play-btn');
+                const muteBtn = document.getElementById('mute-btn');
+                const overlay = document.querySelector('.video-overlay');
+                if(!video || !playBtn) return;
+
+                function updatePlayBtn(){
+                    playBtn.innerHTML = video.paused ? '<i class="fa-solid fa-play"></i> Watch' : '<i class="fa-solid fa-pause"></i> Pause';
+                }
+
+                function updateMuteBtn(){
+                    if(!muteBtn) return;
+                    if(video.muted || video.volume === 0){
+                        muteBtn.innerHTML = '<i class="fa-solid fa-volume-xmark" aria-hidden="true"></i>';
+                        muteBtn.setAttribute('aria-pressed','true');
+                        muteBtn.title = 'Unmute';
+                    } else {
+                        muteBtn.innerHTML = '<i class="fa-solid fa-volume-high" aria-hidden="true"></i>';
+                        muteBtn.setAttribute('aria-pressed','false');
+                        muteBtn.title = 'Mute';
+                    }
+                }
+
+                playBtn.addEventListener('click', (e)=>{
+                    e.stopPropagation();
+                    if(video.paused){
+                        // user initiated play — ensure sound
+                        video.muted = false;
+                        video.volume = 0.9;
+                        video.play();
+                        playBtn.classList.add('playing');
+                    } else {
+                        video.pause();
+                        playBtn.classList.remove('playing');
+                    }
+                    updatePlayBtn();
+                });
+
+                overlay && overlay.addEventListener('click', ()=>{
+                    if(video.paused){
+                        video.muted = false;
+                        video.volume = 0.9;
+                        video.play();
+                        playBtn.classList.add('playing');
+                    } else {
+                        video.pause();
+                        playBtn.classList.remove('playing');
+                    }
+                    updatePlayBtn();
+                });
+
+                // Initialize mute state from saved preference (persisted in localStorage)
+                try{
+                    const saved = localStorage.getItem('promoVideoMuted');
+                    if(saved === 'true'){
+                        video.muted = true; video.volume = 0;
+                    } else if(saved === 'false'){
+                        video.muted = false; if(!video.volume) video.volume = 0.9;
+                    } else {
+                        // no saved preference — prefer unmuted by default
+                        video.muted = false; video.volume = 0.9;
+                    }
+                }catch(e){}
+
+                // Mute/unmute button handler (if present)
+                if(muteBtn){
+                    updateMuteBtn();
+                    muteBtn.addEventListener('click', (ev)=>{
+                        // prevent overlay click handler from also toggling play/pause
+                        ev.stopPropagation();
+                        ev.preventDefault();
+                        try{
+                            video.muted = !video.muted;
+                            if(!video.muted && (!video.volume || video.volume === 0)) video.volume = 0.9;
+                            updateMuteBtn();
+                            localStorage.setItem('promoVideoMuted', video.muted ? 'true' : 'false');
+                        }catch(err){ console.error(err); }
+                    });
+                }
+                // Try to autoplay: attempt unmuted first, fall back to muted autoplay if needed.
+                const tryAutoplay = async () => {
+                    // Prefer to play with sound, but browsers often block unmuted autoplay.
+                    try {
+                        video.muted = false;
+                        video.volume = 0.9;
+                        await video.play();
+                        playBtn.classList.remove('pulse');
+                        // playback started with sound — hide overlay (if present)
+                        if(overlay) overlay.style.display = 'none';
+                        updateMuteBtn();
+                        updatePlayBtn();
+                        return;
+                    } catch (err) {
+                        // Unmuted autoplay failed — try muted autoplay which most browsers allow
+                        try {
+                            video.muted = true;
+                            video.volume = 0;
+                            await video.play();
+                            playBtn.classList.remove('pulse');
+                            // keep overlay visible so user can unmute if desired
+                            if(overlay) overlay.style.display = 'flex';
+                            updateMuteBtn();
+                            updatePlayBtn();
+                            return;
+                        } catch (err2) {
+                            // Muted autoplay also failed — show overlay for user action
+                            console.warn('Autoplay unavailable (muted too):', err2);
+                            if(overlay) overlay.style.display = 'flex';
+                            updatePlayBtn();
+                            updateMuteBtn();
+                        }
+                    }
+                };
+                tryAutoplay();
+            }catch(e){ console.error('video hero init', e); }
+        })();
+    </script>
+    <script>
+        // Ensure video controls (Watch + Mute) persist when navigating back to products
+        (function persistVideoControls(){
+            try{
+                const video = document.getElementById('promo-video');
+                if(!video) return;
+
+                function updatePlayBtnText(playBtn){
+                    if(!playBtn) return;
+                    playBtn.innerHTML = video.paused ? '<i class="fa-solid fa-play"></i> Watch' : '<i class="fa-solid fa-pause"></i> Pause';
+                    if(video.paused) playBtn.classList.remove('playing'); else playBtn.classList.add('playing');
+                }
+
+                function updateMuteBtnState(muteBtn){
+                    if(!muteBtn) return;
+                    if(video.muted || video.volume === 0){ muteBtn.innerHTML = '<i class="fa-solid fa-volume-xmark" aria-hidden="true"></i>'; muteBtn.setAttribute('aria-pressed','true'); muteBtn.title = 'Unmute'; }
+                    else { muteBtn.innerHTML = '<i class="fa-solid fa-volume-high" aria-hidden="true"></i>'; muteBtn.setAttribute('aria-pressed','false'); muteBtn.title = 'Mute'; }
+                }
+
+                function createControlsIfMissing(){
+                    const overlay = document.querySelector('.video-overlay');
+                    if(!overlay) return;
+                    let actions = overlay.querySelector('.video-actions');
+                    if(!actions){
+                        actions = document.createElement('div');
+                        actions.className = 'video-actions';
+                        overlay.appendChild(actions);
+                    }
+
+                    // Play button
+                    let playBtn = document.getElementById('play-btn');
+                    if(!playBtn){
+                        playBtn = document.createElement('button');
+                        playBtn.id = 'play-btn'; playBtn.className = 'play-btn pulse';
+                        playBtn.type = 'button';
+                        playBtn.innerHTML = '<i class="fa-solid fa-play"></i> Watch';
+                        playBtn.addEventListener('click', (e)=>{
+                            e.stopPropagation();
+                            if(video.paused){ video.muted = false; video.volume = 0.9; video.play().catch(()=>{}); }
+                            else { video.pause(); }
+                            updatePlayBtnText(playBtn);
+                            updateMuteBtnState(document.getElementById('mute-btn'));
+                        });
+                        actions.insertBefore(playBtn, actions.firstChild);
+                    }
+
+                    // Mute button
+                    let muteBtn = document.getElementById('mute-btn');
+                    if(!muteBtn){
+                        muteBtn = document.createElement('button');
+                        muteBtn.id = 'mute-btn'; muteBtn.className = 'mute-btn';
+                        muteBtn.type = 'button'; muteBtn.setAttribute('aria-pressed','false'); muteBtn.title = 'Mute';
+                        muteBtn.innerHTML = '<i class="fa-solid fa-volume-high" aria-hidden="true"></i>';
+                        muteBtn.addEventListener('click', (ev)=>{
+                            ev.stopPropagation(); ev.preventDefault();
+                            try{
+                                video.muted = !video.muted;
+                                if(!video.muted && (!video.volume || video.volume === 0)) video.volume = 0.9;
+                                updateMuteBtnState(muteBtn);
+                                localStorage.setItem('promoVideoMuted', video.muted ? 'true' : 'false');
+                            }catch(err){ console.error(err); }
+                        });
+                        actions.appendChild(muteBtn);
+                    }
+
+                    // keep UI in sync
+                    updatePlayBtnText(playBtn);
+                    updateMuteBtnState(muteBtn);
+
+                    // sync when video play/pause/mute state changes
+                    video.addEventListener('play', ()=> updatePlayBtnText(document.getElementById('play-btn')) );
+                    video.addEventListener('pause', ()=> updatePlayBtnText(document.getElementById('play-btn')) );
+                    video.addEventListener('volumechange', ()=> updateMuteBtnState(document.getElementById('mute-btn')) );
+                }
+
+                // Recreate controls on initial load, on pageshow (back button), and when visibility changes
+                document.addEventListener('DOMContentLoaded', createControlsIfMissing);
+                window.addEventListener('pageshow', createControlsIfMissing);
+                document.addEventListener('visibilitychange', ()=>{ if(!document.hidden) createControlsIfMissing(); });
+
+                // Watch the overlay for accidental removals and restore if necessary
+                const overlayEl = document.querySelector('.video-overlay');
+                if(overlayEl && window.MutationObserver){
+                    const mo = new MutationObserver((muts)=>{
+                        // if either button is missing, recreate
+                        if(!document.getElementById('play-btn') || !document.getElementById('mute-btn')){
+                            createControlsIfMissing();
+                        }
+                    });
+                    mo.observe(overlayEl, { childList:true, subtree:true });
+                }
+
+                // immediate ensure
+                createControlsIfMissing();
+            }catch(e){ console.error('persistVideoControls', e); }
+        })();
+    </script>
+
+    <script>
+        // Highlight every letter in the hero lead paragraph
+        (function highlightHeroLeadLetters(){
+            try{
+                const el = document.querySelector('.hero-lead');
+                if(!el) return;
+                const text = el.textContent || el.innerText || '';
+                el.setAttribute('aria-label', text.trim());
+                const chars = Array.from(text);
+                // build html with spans per character
+                const html = chars.map((ch, i) => {
+                    if(ch === ' ' || ch === '\u00A0') return `<span class="hero-quote-letter space">&nbsp;</span>`;
+                    // preserve special characters like em-dash and punctuation
+                    const safe = ch === '<' ? '&lt;' : (ch === '>' ? '&gt;' : ch);
+                    return `<span class="hero-quote-letter" style="--i:${i}">${safe}</span>`;
+                }).join('');
+                el.innerHTML = html;
+                // add small staggered entrance delay to letters and stagger the sweep via --i
+                el.querySelectorAll('.hero-quote-letter').forEach((s, i)=>{ s.style.transitionDelay = (i * 12) + 'ms'; s.style.setProperty('--i', i); });
+            }catch(e){ console.error('hero lead letter highlight', e); }
+        })();
+    </script>
+    <script>
+        // Wrap hero heading letters in spans for highlighted effect
+        (function highlightHeroLetters(){
+            try{
+                const h = document.querySelector('.hero-content h1');
+                if(!h) return;
+                const text = h.textContent.trim();
+                h.setAttribute('aria-label', text);
+                const chars = Array.from(text);
+                h.innerHTML = '';
+                        chars.forEach((ch, i)=>{
+                            const span = document.createElement('span');
+                            span.className = 'hero-letter' + (ch === ' ' ? ' space' : '');
+                            span.textContent = ch === ' ' ? '\u00A0' : ch;
+                            // staggered hover/entrance effect via transition-delay
+                            span.style.transitionDelay = (i * 25) + 'ms';
+                            // set custom index var so animation staggers left->right
+                            span.style.setProperty('--i', i);
+                            h.appendChild(span);
+                        });
+            }catch(e){ console.error('hero highlight init', e); }
+        })();
+    </script>
+
+    <script>
+        // Small parallax + subtle motion for the image-hero
+        (function initImageHeroParallax(){
+            try{
+                const hero = document.querySelector('.image-hero');
+                if(!hero) return;
+                const img = hero.querySelector('.full-width-image');
+                const maxTranslate = 18; // px
+
+                // on scroll: translate image a little based on hero position in viewport
+                function onScroll(){
+                    const rect = hero.getBoundingClientRect();
+                    const vh = window.innerHeight || document.documentElement.clientHeight;
+                    // normalized from -1 (above) to 1 (below)
+                    const norm = ((rect.top + rect.height/2) - vh/2) / (vh/2);
+                        const translateY = Math.max(Math.min(norm * maxTranslate, maxTranslate), -maxTranslate);
+                        if(img) img.style.transform = `translateY(${translateY}px)`;
+                }
+
+                // on mouse move: small parallax when pointer is over hero
+                function onMove(e){
+                    const r = hero.getBoundingClientRect();
+                    const px = (e.clientX - r.left) / r.width - 0.5; // -0.5 .. 0.5
+                    const py = (e.clientY - r.top) / r.height - 0.5;
+                    const mx = px * 8; const my = py * 6;
+                    if(img) img.style.transform = `translateY(${my}px) translateX(${mx}px)`;
+                }
+
+                let ticking = false;
+                window.addEventListener('scroll', ()=>{
+                    if(!ticking){ window.requestAnimationFrame(()=>{ onScroll(); ticking = false; }); }
+                    ticking = true;
+                }, { passive:true });
+
+                hero.addEventListener('mousemove', onMove);
+                hero.addEventListener('mouseleave', onScroll);
+
+                // kick initial position
+                onScroll();
+            }catch(e){ console.error('image-hero parallax init', e); }
+        })();
+    </script>
+    <script>
+        // Header auth toggle: show Sign Up when not logged in, Profile icon when logged in
+        (function initHeaderAuth(){
+            try{
+                const nav = document.querySelector('.nav-actions');
+                if(!nav) return;
+
+                function getUser(){ try{ return JSON.parse(localStorage.getItem('coffeeHavenCurrentUser')||'null'); }catch(e){ return null; } }
+                function setUser(u){ try{ localStorage.setItem('coffeeHavenCurrentUser', JSON.stringify(u)); }catch(e){console.error(e);} }
+
+                async function checkServerAuth(){
+                    try{
+                        const resp = await fetch('/coffee_haven/login/auth_status.php');
+                        const data = await resp.json();
+                        if(data && data.ok && data.user){
+                            // normalize user fields
+                            const u = { id: data.user.id, name: data.user.username || data.user.email, email: data.user.email };
+                                // merge with any locally-saved profile fields (preserve address if present locally)
+                                try{
+                                    const local = getUser();
+                                    if(local && local.address && !u.address){ u.address = local.address; }
+                                    if(local && local.name && !u.name){ u.name = local.name; }
+                                    if(local && local.email && !u.email){ u.email = local.email; }
+                                }catch(e){ /* ignore */ }
+                                setUser(u);
+                                return u;
+                        }
+                    }catch(e){ /* ignore network errors */ }
+                    return null;
+                }
+
+                function update(){
+                    const user = getUser();
+                    const signup = document.getElementById('signup-btn');
+                    const profile = document.getElementById('profile-btn');
+                    const logout = document.getElementById('logout-link');
+
+                    if(user){
+                        if(signup) signup.style.display = 'none';
+                        if(profile){ profile.style.display = 'inline-flex'; profile.title = user.name || 'Profile'; profile.setAttribute('aria-hidden','false'); profile.classList.remove('guest');
+                            const initials = (user.name||'').split(' ').map(s=>s[0]).slice(0,2).join('').toUpperCase() || 'ME';
+                            const pin = document.getElementById('profile-initials'); if(pin) pin.textContent = initials;
+                        }
+                        if(logout) logout.style.display = 'inline-flex';
+                    } else {
+                        if(signup) signup.style.display = 'inline-flex';
+                        if(profile){ profile.style.display = 'none'; profile.setAttribute('aria-hidden','true'); profile.classList.remove('guest');
+                            const pin = document.getElementById('profile-initials'); if(pin) pin.textContent = 'GH';
+                        }
+                        if(logout) logout.style.display = 'none';
+                    }
+                }
+
+                // first check server session; if found, update local storage and UI
+                checkServerAuth().then(()=> update()).catch(()=> update());
+
+                // react to cross-tab changes
+                window.addEventListener('storage', (e)=>{ if(e.key === 'coffeeHavenCurrentUser') update(); });
+                // also listen for cartUpdated as a convenient event after purchase flow
+                window.addEventListener('cartUpdated', update);
+            }catch(err){ console.error('header auth init', err); }
+        })();
+    </script>
+</body>
+</html>

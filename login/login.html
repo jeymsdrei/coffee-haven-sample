@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Coffee Haven — Account</title>
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+        <style>
+            :root{
+                --bg:#f7f3ef;
+                --card:#ffffff;
+                --accent1:#6b3e26; /* coffee brown */
+                --accent2:#cfa67f; /* light brown */
+                --muted:#6b5a4a;
+            }
+            html,body{height:100%;margin:0;font-family:Montserrat,system-ui,Arial;background:var(--bg);color:#2b1b10}
+            .page{min-height:100%;display:flex;align-items:center;justify-content:center;padding:40px}
+            .auth-wrap{width:100%;max-width:1000px;display:grid;grid-template-columns:1fr 420px;gap:28px;align-items:stretch}
+            /* left visual panel */
+            .auth-visual{position:relative;border-radius:16px;overflow:hidden;display:flex;align-items:flex-end;padding:24px;background-size:cover;background-position:center center;box-shadow:0 18px 40px rgba(11,9,6,0.08)}
+            .auth-visual .overlay{position:absolute;inset:0;background:linear-gradient(180deg, rgba(11,9,6,0.12), rgba(11,9,6,0.28));}
+            .visual-content{position:relative;z-index:2;color:#fff;padding:28px;max-width:560px}
+            .visual-content h3{font-family:'Playfair Display',serif;font-size:36px;margin:0 0 8px}
+            .visual-content p{margin:0;color:rgba(255,255,255,0.92)}
+
+            /* right form card */
+            .auth-card{background:var(--card);border-radius:14px;padding:26px;box-shadow:0 18px 36px rgba(11,9,6,0.06);}
+            .brand{display:flex;align-items:center;gap:12px;margin-bottom:8px}
+            .brand img{width:44px;height:44px;border-radius:8px;object-fit:cover}
+            .brand h2{margin:0;font-size:18px;color:var(--accent1)}
+
+            .tabs{display:flex;gap:8px;margin:18px 0 14px}
+            .tab{flex:1;padding:10px;border-radius:10px;text-align:center;cursor:pointer;border:1px solid #eee;background:#faf7f5}
+            .tab.active{background:linear-gradient(90deg,var(--accent1),var(--accent2));color:#fff;font-weight:700;border:none;box-shadow:0 10px 30px rgba(107,62,38,0.12)}
+
+            form{display:flex;flex-direction:column;gap:12px}
+            label{font-size:13px;color:var(--muted);display:block}
+            input[type="text"],input[type="email"],input[type="password"]{width:100%;padding:12px;border-radius:8px;border:1px solid #e6e3df;font-size:15px}
+            .form-row{display:flex;gap:10px}
+            .btn{cursor:pointer;border:0;padding:12px 16px;border-radius:10px;font-weight:700}
+            .btn.primary{background:linear-gradient(90deg,var(--accent1),var(--accent2));color:#fff;box-shadow:0 10px 30px rgba(107,62,38,0.12)}
+            .btn.ghost{background:transparent;border:1px solid #eee;color:var(--accent1)}
+            .muted{color:var(--muted);font-size:13px}
+
+            .helper{display:flex;justify-content:space-between;align-items:center}
+            .socials{display:flex;gap:8px}
+            .socials button{padding:8px 10px;border-radius:8px;border:1px solid #eee;background:#fff}
+
+            /* small helpers */
+            .feedback{min-height:18px;font-size:13px;color:#d9534f}
+            .success{color:#065f46}
+
+            @media (max-width:980px){.auth-wrap{grid-template-columns:1fr;}.auth-visual{height:220px}.visual-content h3{font-size:22px}.auth-visual .overlay{background:linear-gradient(180deg, rgba(11,9,6,0.18), rgba(11,9,6,0.36));}}
+        </style>
+    </head>
+    <body>
+        <div class="page">
+            <div class="auth-wrap">
+                <div class="auth-visual" style="background-image:url('../PICTURES/Screenshot 2025-11-04 002254.png')">
+                    <div class="overlay" aria-hidden="true"></div>
+                    <div class="visual-content">
+                        <h3>Welcome to Coffee Haven</h3>
+                        <p>Small farms, big flavor — sign in to access exclusive blends, early drops, and member perks.</p>
+                    </div>
+                </div>
+
+                <div class="auth-card" role="region" aria-labelledby="auth-heading">
+                    <div class="brand">
+                        <img src="../PICTURES/Screenshot 2025-11-04 002254.png" alt="Coffee Haven logo">
+                        <h2 id="auth-heading">Account Access</h2>
+                    </div>
+
+                    <div class="tabs" role="tablist">
+                        <div id="tab-login" class="tab active" role="tab" aria-selected="true">Log In</div>
+                        <div id="tab-signup" class="tab" role="tab" aria-selected="false">Sign Up</div>
+                    </div>
+
+                    <div id="forms">
+                        <form id="form-login" action="login.php" method="post" aria-hidden="false">
+                            <label for="login-email">Email address</label>
+                            <input id="login-email" name="email" type="email" required autocomplete="email">
+
+                            <label for="login-pass">Password</label>
+                            <input id="login-pass" name="password" type="password" required autocomplete="current-password">
+
+                            <div class="helper">
+                                <label class="muted"><input type="checkbox" name="remember"> Remember me</label>
+                                <a href="#" class="muted">Forgot?</a>
+                            </div>
+
+                            <button class="btn primary" type="submit">Sign in</button>
+                            <div class="helper" style="margin-top:6px">
+                                <div class="muted">Or continue with</div>
+                                <div class="socials">
+                                    <button type="button" title="Sign in with Facebook">FB</button>
+                                    <button type="button" title="Sign in with Google">G</button>
+                                </div>
+                            </div>
+                        </form>
+
+                        <form id="form-signup" action="register.php" method="post" style="display:none" aria-hidden="true">
+                            <label for="signup-name">Full name</label>
+                            <input id="signup-name" name="fullname" type="text" required autocomplete="name">
+
+                            <label for="signup-email">Email address</label>
+                            <input id="signup-email" name="email" type="email" required autocomplete="email">
+
+                            <label for="signup-pass">Create password</label>
+                            <input id="signup-pass" name="password" type="password" required autocomplete="new-password">
+                            <div id="pw-feedback" class="feedback" aria-live="polite"></div>
+
+                            <label class="muted"><input type="checkbox" required> I agree to the <a href="#">Terms</a></label>
+                            <button class="btn primary" type="submit">Create account</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            // Tabs and simple UI behaviors
+            (function(){
+                const tabLogin = document.getElementById('tab-login');
+                const tabSignup = document.getElementById('tab-signup');
+                const formLogin = document.getElementById('form-login');
+                const formSignup = document.getElementById('form-signup');
+                const signupPass = document.getElementById('signup-pass');
+                const pwFeedback = document.getElementById('pw-feedback');
+
+                function showLogin(){ tabLogin.classList.add('active'); tabSignup.classList.remove('active'); formLogin.style.display='block'; formSignup.style.display='none'; tabLogin.setAttribute('aria-selected','true'); tabSignup.setAttribute('aria-selected','false'); }
+                function showSignup(){ tabSignup.classList.add('active'); tabLogin.classList.remove('active'); formSignup.style.display='block'; formLogin.style.display='none'; tabSignup.setAttribute('aria-selected','true'); tabLogin.setAttribute('aria-selected','false'); }
+
+                tabLogin.addEventListener('click', showLogin);
+                tabSignup.addEventListener('click', showSignup);
+
+                // Password strength helper
+                if(signupPass){
+                    signupPass.addEventListener('input', ()=>{
+                        const v = signupPass.value; let s=0; if(v.length>=8) s++; if(/[A-Z]/.test(v)) s++; if(/[0-9]/.test(v)) s++; if(/[^A-Za-z0-9]/.test(v)) s++;
+                        if(v.length===0){ pwFeedback.textContent=''; }
+                        else if(s<=1){ pwFeedback.textContent='Weak password'; pwFeedback.style.color='#d9534f'; }
+                        else if(s===2){ pwFeedback.textContent='Medium strength'; pwFeedback.style.color='#f0ad4e'; }
+                        else { pwFeedback.textContent='Strong password'; pwFeedback.style.color='#28a745'; }
+                    });
+                }
+            })();
+        </script>
+    </body>
+</html>

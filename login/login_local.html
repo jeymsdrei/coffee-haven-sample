@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Log In — Coffee Haven</title>
+  <link rel="stylesheet" href="../style.css">
+  <style>body{font-family:Montserrat,Arial,Helvetica,sans-serif;background:#fffaf6;color:#3b2f2f;padding:24px} .card{max-width:440px;margin:36px auto;padding:18px;background:#fff;border-radius:10px;box-shadow:0 8px 30px rgba(11,9,6,0.06)}</style>
+</head>
+<body>
+  <main class="card">
+    <h2>Log in</h2>
+    <form id="login-form">
+      <label>Email<br><input id="email" required type="email"></label><br><br>
+      <label>Password<br><input id="password" required type="password"></label><br><br>
+      <div style="display:flex;gap:8px"><button type="submit" class="btn">Log in</button><a href="register.html" style="align-self:center">Create account</a></div>
+    </form>
+  </main>
+  <script>
+    async function fallbackLocalLogin(email,password){ try{ const users = JSON.parse(localStorage.getItem('coffeeHavenUsers')||'[]'); const u = users.find(x=>x.email && x.email.toLowerCase()===String(email).toLowerCase() && x.password===password); if(u){ localStorage.setItem('coffeeHavenCurrentUser', JSON.stringify(u)); return u; } return null; }catch(e){ console.error(e); return null; } }
+
+    document.getElementById('login-form').addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      const email=document.getElementById('email').value.trim();
+      const password=document.getElementById('password').value;
+
+      // try server API
+      try{
+        const resp = await fetch('/coffee_haven/login/api_login.php', { method: 'POST', headers: { 'Content-Type':'application/json' }, body: JSON.stringify({ email: email, password: password }) });
+        const data = await resp.json();
+        if(data && data.ok){ const user = data.user; localStorage.setItem('coffeeHavenCurrentUser', JSON.stringify(user)); alert('Logged in as ' + (user.username || user.email)); window.location.href = '/coffee_haven/login/profile.html'; return; }
+      }catch(err){ console.warn('API login failed, falling back to local login', err); }
+
+      // fallback
+      const u = await fallbackLocalLogin(email,password);
+      if(!u){ alert('Invalid credentials'); return; }
+      alert('Logged in locally as '+(u.name||u.email)); window.location.href='/coffee_haven/login/profile.html';
+    });
+  </script>
+</body>
+</html>

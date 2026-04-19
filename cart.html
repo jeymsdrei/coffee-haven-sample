@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coffee Haven — Cart</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        :root{ --bg:#f7fafc; --card:#ffffff; --muted:#6b7280; --brand:#7c3aed; --accent:#10b981; }
+        html,body{ height:100%; }
+        body{ font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; background:var(--bg); margin:0; color:#111827; }
+        .container{ max-width:1160px; margin:36px auto; padding:24px; }
+        .header{ display:flex; justify-content:space-between; align-items:center; gap:16px; margin-bottom:18px; }
+        .brand{ display:flex; align-items:center; gap:12px; }
+        .brand img{ width:44px; height:44px; border-radius:8px; object-fit:cover; }
+        h1{ font-size:20px; margin:0; }
+        .grid{ display:grid; grid-template-columns: 1fr 360px; gap:24px; }
+        .card{ background:var(--card); border-radius:12px; padding:18px; box-shadow:0 6px 20px rgba(15,23,42,0.06); }
+        /* Cart banner */
+        .cart-banner{ background:linear-gradient(90deg, rgba(139,90,54,0.08), rgba(207,166,127,0.06)); padding:14px; border-radius:12px; align-items:center; box-shadow:0 8px 30px rgba(139,90,54,0.04); }
+        .cart-banner .hint{ color:var(--muted); font-size:13px; }
+        .cart-banner .btn-primary{ box-shadow:0 8px 22px rgba(107,62,38,0.12); }
+
+        /* Make summary more prominent and 'coffee' themed */
+        .summary{ background: linear-gradient(180deg,#fffaf6,#fff7f0); border-left:8px solid rgba(139,90,54,0.14); padding:20px; }
+
+        .summary h3{ font-size:18px; margin-bottom:12px; color:#3b2f2f; letter-spacing:0.2px; }
+        .summary .total{ font-size:18px; color:#2b1b10; }
+        .summary .label-muted{ color:#6b5a4a; }
+        .summary .grand-total{ display:block; font-size:22px; color:#6b3e26; font-weight:900; margin-top:6px; }
+        .payment-success{ color:#065f46; font-weight:700; }
+
+        /* Pulse animation for total when it changes */
+        .pulse-total{ animation:total-pulse 700ms cubic-bezier(.2,.9,.2,1); }
+        @keyframes total-pulse{ 0%{ transform:scale(1); } 30%{ transform:scale(1.06); } 100%{ transform:scale(1); } }
+
+        /* Slightly nicer item card styles */
+        .items-list .item{ background: linear-gradient(180deg, rgba(255,255,255,0.7), rgba(255,255,255,0.9)); border-radius:10px; padding:12px; margin-bottom:10px; box-shadow:0 8px 20px rgba(11,9,6,0.03); }
+        .items-list .item:last-child{ margin-bottom:0; }
+        .item-thumb{ width:96px; height:96px; border-radius:12px; overflow:hidden; flex-shrink:0; background:#fff; display:flex; align-items:center; justify-content:center; }
+
+        /* Items list */
+        .items-list .item{ display:flex; gap:14px; padding:14px 0; border-bottom:1px solid #f1f5f9; align-items:center; }
+        .items-list .item:last-child{ border-bottom:none; }
+        .item-thumb{ width:96px; height:96px; border-radius:10px; overflow:hidden; flex-shrink:0; background:#f3f4f6; display:flex; align-items:center; justify-content:center; }
+        .item-thumb img{ width:100%; height:100%; object-fit:cover; }
+        .item-meta{ flex:1; display:flex; flex-direction:column; gap:6px; }
+        .item-title{ font-weight:600; font-size:15px; color:#0f172a; }
+        .item-controls{ display:flex; align-items:center; gap:10px; }
+        .qty{ display:flex; align-items:center; gap:6px; border-radius:8px; overflow:hidden; border:1px solid #e6e9ee; }
+        .qty button{ width:34px; height:34px; border:0; background:#fff; cursor:pointer; }
+        .qty input{ width:46px; text-align:center; border:0; padding:6px; font-weight:600; }
+        .remove{ background:transparent; border:0; color:#ef4444; cursor:pointer; font-size:14px; }
+
+        /* Summary */
+        .summary .summary-line{ display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px dashed #eef2f7; }
+        .summary .total{ font-weight:700; font-size:18px; color:#0f172a; }
+        .summary .label-muted{ color:var(--muted); font-size:13px; }
+        .payment-methods{ display:flex; gap:10px; margin-top:12px; }
+        .pay-btn{ flex:1; border-radius:8px; padding:10px; display:flex; gap:8px; align-items:center; justify-content:center; cursor:pointer; border:1px solid #e6e9ee; background:#fff; }
+        .pay-btn.selected{ border-color:var(--brand); box-shadow:0 6px 18px rgba(124,58,237,0.08); }
+        .pay-btn .name{ font-weight:600; }
+        .payment-info{ margin-top:10px; background:#fffaf6; border:1px solid #f1e1d2; padding:10px 12px; border-radius:8px; color:#5a3f2e; font-size:13px; display:none; }
+        .payment-info strong{ color:#3b2f2f }
+
+        /* Marketplace selector buttons (eye-catching) */
+        .market-select{ display:inline-flex; align-items:center; gap:8px; padding:8px 10px; border-radius:10px; border:0; cursor:pointer; font-weight:800; font-size:13px; box-shadow:0 8px 22px rgba(2,6,23,0.04); }
+        .market-select i{ font-size:16px }
+        .market-select.tiktok{ background:linear-gradient(90deg,#111,#222); color:#fff }
+        .market-select.lazada{ background:linear-gradient(90deg,#0066cc,#2b85e4); color:#fff }
+        .market-select.shopee{ background:linear-gradient(90deg,#ff6a3d,#ff8a5c); color:#fff }
+        .market-select.selected{ box-shadow:0 12px 30px rgba(0,0,0,0.18); transform:translateY(-2px) }
+
+        .checkout-row{ margin-top:14px; display:flex; gap:10px; }
+        .btn-primary{ flex:1; background:var(--brand); color:#fff; border:0; padding:12px 16px; border-radius:10px; font-weight:700; cursor:pointer; }
+        .btn-ghost{ background:#fff; border:1px solid #e6e9ee; padding:12px 16px; border-radius:10px; cursor:pointer; }
+
+        .empty{ text-align:center; padding:36px 12px; color:var(--muted); }
+        .orders-history{ margin-top:14px; }
+        .order-item{ padding:10px; border-radius:8px; background:#f8fafc; font-size:13px; margin-bottom:8px; }
+
+        @media (max-width:960px){ .grid{ grid-template-columns:1fr; } .summary{ order:-1; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="brand">
+                <img src="https://i.imgur.com/OxQ011F.jpg" alt="logo">
+                <div>
+                    <h1>Shopping Cart</h1>
+                    <div style="color:var(--muted);font-size:13px">Review items and complete your order</div>
+                </div>
+            </div>
+           
+        </div>
+
+        <div class="grid">
+            <div class="card items-list" id="items-card">
+                <div id="cart-items">
+                    <!-- items rendered here -->
+                </div>
+                <!-- Updated cart banner: stylish header without free pickup text -->
+                <div class="cart-banner" style="margin-top:14px; display:flex; align-items:center; gap:12px; justify-content:space-between;">
+                    <div style="display:flex; gap:12px; align-items:center;">
+                        <div style="width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,#8b5a36,#cfa67f);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:20px;">☕</div>
+                        <div>
+                            <div style="font-weight:800; font-size:16px; color:#3b2f2f;">Your Coffee Picks</div>
+                            <div style="color:var(--muted);font-size:13px;">Review and customize before checkout</div>
+                        </div>
+                    </div>
+                    <div style="display:flex; gap:10px; align-items:center;">
+                        <a href="my.html" class="btn-ghost" style="padding:8px 12px;border-radius:8px;">Keep Shopping</a>
+                    </div>
+                </div>
+            </div>
+
+            <aside class="card summary" id="summary-card">
+                <h3 style="margin:0 0 10px 0;">Order Summary</h3>
+                <div class="summary-line"><span class="label-muted">Subtotal</span><span id="summary-subtotal">$0.00</span></div>
+                <div class="summary-line"><span class="label-muted">Shipping</span><span id="summary-shipping">$0.00</span></div>
+                <div class="summary-line"><span class="label-muted">Estimated tax</span><span id="summary-tax">$0.00</span></div>
+                <div class="summary-line" style="border-bottom:0; margin-top:8px;"><span class="total">Grand Total</span><span class="total" id="summary-total">$0.00</span></div>
+
+                <div style="margin-top:12px; font-weight:700; color:var(--muted); font-size:13px">Payment Method</div>
+                <div class="payment-methods" id="cart-payment-options">
+                    <div class="pay-btn" data-method="gcash"><i class="fa-brands fa-google" style="color:#10b981"></i><div class="name">GCash</div></div>
+                    <div class="pay-btn" data-method="card"><i class="fa-solid fa-credit-card" style="color:#6b7280"></i><div class="name">Credit Card</div></div>
+                    <div class="pay-btn" data-method="cod"><i class="fa-solid fa-box" style="color:#f97316"></i><div class="name">Cash on Delivery</div></div>
+                </div>
+
+                <div id="payment-info" class="payment-info" role="status" aria-live="polite"></div>
+
+                <div id="summary-marketplaces" style="margin-top:10px;color:#6b5a4a;font-size:13px">
+                    <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
+                        <div style="width:1px; height:1px; visibility:hidden;"></div>
+                        <div id="summary-marketplaces-buttons" style="display:flex;gap:8px;">
+                            <button class="market-select-global market-select tiktok" data-market="tiktok" aria-pressed="false"><i class="fa-brands fa-tiktok"></i> TikTok</button>
+                            <button class="market-select-global market-select lazada" data-market="lazada" aria-pressed="false"><i class="fa-solid fa-store"></i> Lazada</button>
+                            <button class="market-select-global market-select shopee" data-market="shopee" aria-pressed="false"><i class="fa-solid fa-bag-shopping"></i> Shopee</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="checkout-row">
+                    <button id="checkout-btn" class="btn-primary">Checkout</button>
+                    <button id="clear-cart-btn" class="btn-ghost">Clear</button>
+                </div>
+
+                <div id="checkout-message" style="margin-top:12px; min-height:26px;"></div>
+
+                <!-- Recent orders removed per request -->
+            </aside>
+        </div>
+    </div>
+
+    <script src="cart.js"></script>
+    <script>
+        // Simple auth helpers (client-side)
+        function getCurrentUser(){ try{ return JSON.parse(localStorage.getItem('coffeeHavenCurrentUser')||'null'); }catch(e){return null;} }
+        function setCurrentUser(u){ localStorage.setItem('coffeeHavenCurrentUser', JSON.stringify(u)); }
+
+        // Insert a receipt modal container into the DOM
+        (function insertReceiptModal(){
+            const html = `
+            <div id="cart-receipt-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);align-items:center;justify-content:center;z-index:9999;">
+                <div style="background:#fff;border-radius:10px;max-width:720px;width:92%;padding:18px;box-shadow:0 18px 40px rgba(2,6,23,0.3);">
+                    <div id="cart-receipt-content"></div>
+                </div>
+            </div>`;
+            document.body.insertAdjacentHTML('beforeend', html);
+        })();
+
+        // New cart UI logic using CoffeeCart
+        const OrdersKey = 'coffeeHavenOrders';
+
+        function formatMoney(v){ return '₱' + (v||0).toFixed(2); }
+        // robust price parser: accepts numbers or strings like '₱35' or '35.00' and returns Number
+        function parsePrice(v){
+            if(typeof v === 'number') return v;
+            if(!v) return 0;
+            try{
+                // remove any non-numeric except dot and minus
+                const cleaned = String(v).replace(/[^0-9.-]+/g, '');
+                const n = parseFloat(cleaned);
+                return isNaN(n) ? 0 : n;
+            }catch(e){ return 0; }
+        }
+
+        // Luhn checksum validator for basic card number validation
+        function luhnCheck(cardNumber){
+            try{
+                const digits = cardNumber.replace(/\D/g,'');
+                let sum = 0; let alt = false;
+                for(let i = digits.length - 1; i >= 0; i--){
+                    let n = parseInt(digits.charAt(i), 10);
+                    if(alt){ n *= 2; if(n > 9) n -= 9; }
+                    sum += n; alt = !alt;
+                }
+                return (sum % 10) === 0;
+            }catch(e){ return false; }
+        }
+
+        function saveOrder(order){
+            try{
+                const list = JSON.parse(localStorage.getItem(OrdersKey) || '[]');
+                // attach user id and address when present
+                try{ const cu = getCurrentUser(); if(cu){ if(cu.id && !order.userId) order.userId = cu.id; if(cu.address && !order.address) order.address = cu.address; } }catch(e){}
+                list.unshift(order);
+                localStorage.setItem(OrdersKey, JSON.stringify(list.slice(0,10))); // keep last 10
+            }catch(e){console.error(e)}
+        }
+
+        // Recent orders list removed from cart UI
+
+        function renderCart(){
+            const container = document.getElementById('cart-items');
+            const cart = CoffeeCart.getCart();
+            container.innerHTML = '';
+            if(!cart || !cart.length){
+                container.innerHTML = '<div class="empty">Your cart is empty. <a href="my.html">Shop now</a></div>';
+                updateSummary(0);
+                return;
+            }
+
+            let subtotal = 0;
+            cart.forEach((item, idx)=>{
+                    const price = parsePrice(item.price); const qty = parseInt(item.quantity)||1; const total = price*qty; subtotal += total;
+
+                const node = document.createElement('div'); node.className='item';
+                node.innerHTML = `
+                    <div class="item-thumb"><img src="${item.img||''}" alt="${item.name||''}"></div>
+                    <div class="item-meta">
+                        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;">
+                            <div>
+                                <div class="item-title">${item.name||'Product'}</div>
+                            </div>
+                            <div style="text-align:right"><div style="font-weight:700">${formatMoney(price)}</div><div style="color:var(--muted);font-size:13px">Unit price</div></div>
+                        </div>
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px;">
+                            <div class="item-controls">
+                                <div class="qty">
+                                    <button class="qty-dec" data-idx="${idx}">-</button>
+                                    <input class="qty-input" data-idx="${idx}" type="number" value="${qty}" min="1">
+                                    <button class="qty-inc" data-idx="${idx}">+</button>
+                                </div>
+                                <button class="remove" data-idx="${idx}">Remove</button>
+                                                <div style="display:inline-flex; gap:8px; margin-left:10px;">
+                                                    <!-- Per-item marketplace selectors removed — use global selector in order summary -->
+                                                </div>
+                            </div>
+                            <div style="font-weight:700">${formatMoney(total)}</div>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(node);
+            });
+
+            updateSummary(subtotal);
+
+            // attach handlers
+            container.querySelectorAll('.qty-dec').forEach(b=>b.addEventListener('click', (e)=>{
+                const i = parseInt(e.currentTarget.dataset.idx); const cart = CoffeeCart.getCart(); const cur = parseInt(cart[i].quantity)||1; if(cur>1) CoffeeCart.updateQuantity(i, cur-1); renderCart();
+            }));
+            container.querySelectorAll('.qty-inc').forEach(b=>b.addEventListener('click', (e)=>{
+                const i = parseInt(e.currentTarget.dataset.idx); const cart = CoffeeCart.getCart(); const cur = parseInt(cart[i].quantity)||1; CoffeeCart.updateQuantity(i, cur+1); renderCart();
+            }));
+            container.querySelectorAll('.qty-input').forEach(inp=>inp.addEventListener('change', (e)=>{
+                const i = parseInt(e.currentTarget.dataset.idx); const v = parseInt(e.currentTarget.value)||1; CoffeeCart.updateQuantity(i, v); renderCart();
+            }));
+            container.querySelectorAll('.remove').forEach(btn=>btn.addEventListener('click', (e)=>{
+                const i = parseInt(e.currentTarget.dataset.idx); CoffeeCart.removeItem(i); renderCart();
+            }));
+
+            // per-item marketplace selectors removed — global selector is in the summary
+
+            // marketplaces removed from cart UI
+        }
+
+        function updateSummary(subtotal){
+            const shipping = subtotal > 0 ? 60.00 : 0; // sample shipping
+            const tax = subtotal * 0.10;
+            const total = subtotal + shipping + tax;
+            document.getElementById('summary-subtotal').textContent = formatMoney(subtotal);
+            document.getElementById('summary-shipping').textContent = formatMoney(shipping);
+            document.getElementById('summary-tax').textContent = formatMoney(tax);
+            const totalEl = document.getElementById('summary-total');
+            // update total and animate briefly to catch the eye
+            totalEl.textContent = formatMoney(total);
+            // expose numeric total for accurate checkout
+            window.currentCartTotal = total;
+            totalEl.classList.remove('pulse-total');
+            // force reflow to restart animation
+            void totalEl.offsetWidth;
+            totalEl.classList.add('pulse-total');
+        }
+
+        // Payment selection UI
+        let selectedCartMethod = null;
+        const payOptionsContainer = document.getElementById('cart-payment-options');
+        if(payOptionsContainer){
+            payOptionsContainer.addEventListener('click', (e)=>{
+                const opt = e.target.closest('.pay-btn'); if(!opt) return;
+                payOptionsContainer.querySelectorAll('.pay-btn').forEach(o=>o.classList.remove('selected'));
+                opt.classList.add('selected'); selectedCartMethod = opt.dataset.method;
+            });
+        }
+
+    // Payment info hint box behavior: show details when hovering or focusing a method
+    (function initPaymentInfo(){
+        const paymentInfoEl = document.getElementById('payment-info');
+        if(!paymentInfoEl || !payOptionsContainer) return;
+
+        function getPaymentInfoContent(method, selected){
+            if(!method) return '<div style="color:#7a5a43">Hover or focus a payment method to see details.</div>';
+            if(method === 'gcash'){
+                return `<div>
+                            <strong>GCash</strong> — After checkout you will receive payment instructions (QR or reference). Open your GCash app and follow the provided steps.
+                            <div style="margin-top:8px">
+                                <label style="display:block;font-size:13px;color:#7a5a43">GCash Number</label>
+                                <input id="gcash-number" type="tel" inputmode="numeric" placeholder="09XXXXXXXXX" style="width:100%;padding:8px;border:1px solid #e6e9ee;border-radius:6px;margin-top:6px">
+                            </div>
+                            <div style="margin-top:8px">
+                                <label style="display:block;font-size:13px;color:#7a5a43">Account Name</label>
+                                <input id="gcash-name" type="text" placeholder="Juan Dela Cruz" style="width:100%;padding:8px;border:1px solid #e6e9ee;border-radius:6px;margin-top:6px">
+                            </div>
+                        </div>`;
+            }
+            if(method === 'card'){
+                return `<div>
+                            <strong>Debit/Credit Card</strong> — Enter your card details below. We only store the last 4 digits for your receipt; do not include CVV in saved data.
+                            <div style="margin-top:8px;display:grid;grid-template-columns:1fr 120px;gap:8px;align-items:end;">
+                                <div>
+                                    <label style="display:block;font-size:13px;color:#7a5a43">Card Number</label>
+                                    <input id="card-number" type="text" inputmode="numeric" placeholder="4242 4242 4242 4242" style="width:100%;padding:8px;border:1px solid #e6e9ee;border-radius:6px;margin-top:6px">
+                                </div>
+                                <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+                                    <div>
+                                        <label style="display:block;font-size:13px;color:#7a5a43">Exp (MM/YY)</label>
+                                        <input id="card-exp" type="text" placeholder="MM/YY" style="width:100%;padding:8px;border:1px solid #e6e9ee;border-radius:6px;margin-top:6px">
+                                    </div>
+                                    <div>
+                                        <label style="display:block;font-size:13px;color:#7a5a43">CVV</label>
+                                        <input id="card-cvv" type="password" inputmode="numeric" placeholder="123" style="width:100%;padding:8px;border:1px solid #e6e9ee;border-radius:6px;margin-top:6px">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>`;
+            }
+            if(method === 'cod'){
+                return '<strong>Cash on Delivery</strong> — Pay the rider when your order arrives.';
+            }
+            return '';
+        }
+
+        const buttons = payOptionsContainer.querySelectorAll('.pay-btn');
+        buttons.forEach(btn=>{
+            btn.addEventListener('pointerenter', ()=>{
+                const m = btn.dataset.method; paymentInfoEl.innerHTML = getPaymentInfoContent(m, btn.classList.contains('selected')); paymentInfoEl.style.display = 'block';
+            });
+            btn.addEventListener('focus', ()=>{
+                const m = btn.dataset.method; paymentInfoEl.innerHTML = getPaymentInfoContent(m, btn.classList.contains('selected')); paymentInfoEl.style.display = 'block';
+            }, true);
+            btn.addEventListener('pointerleave', ()=>{
+                const m = btn.dataset.method;
+                if(selectedCartMethod === m){ paymentInfoEl.innerHTML = getPaymentInfoContent(m, true); paymentInfoEl.style.display = 'block'; }
+                else { paymentInfoEl.style.display = 'none'; paymentInfoEl.innerHTML = ''; }
+            });
+            btn.addEventListener('blur', ()=>{
+                if(selectedCartMethod === btn.dataset.method){ paymentInfoEl.innerHTML = getPaymentInfoContent(selectedCartMethod, true); paymentInfoEl.style.display = 'block'; }
+                else { paymentInfoEl.style.display = 'none'; paymentInfoEl.innerHTML = ''; }
+            }, true);
+        });
+
+        // Update when selection changes
+        function updatePaymentInfoForSelection(){ if(!paymentInfoEl) return; if(selectedCartMethod){ paymentInfoEl.innerHTML = getPaymentInfoContent(selectedCartMethod, true); paymentInfoEl.style.display = 'block'; } else { paymentInfoEl.style.display = 'none'; paymentInfoEl.innerHTML = ''; } }
+        payOptionsContainer.addEventListener('click', ()=>{ setTimeout(updatePaymentInfoForSelection, 10); });
+
+        // show initial hint
+        paymentInfoEl.innerHTML = '<div style="color:#7a5a43">Hover or focus a payment method to see details.</div>';
+        paymentInfoEl.style.display = 'block';
+    })();
+
+        // Lightweight marketplace buttons: toggle selection and apply to cart items (do not include in orders)
+        (function initMarketplaceButtons(){
+            try{
+                const wrap = document.getElementById('summary-marketplaces-buttons');
+                if(!wrap) return;
+                const buttons = wrap.querySelectorAll('.market-select-global');
+                wrap.addEventListener('click', (e)=>{
+                    const btn = e.target.closest('.market-select-global');
+                    if(!btn) return;
+                    const market = btn.dataset.market;
+                    // visual toggle — selected button shows selected state, others cleared
+                    buttons.forEach(b=>{
+                        const isSel = (b === btn);
+                        b.classList.toggle('selected', isSel);
+                        b.setAttribute('aria-pressed', String(isSel));
+                    });
+                    // apply marketplace to all cart items (stored in cart) but we won't send this to server
+                    try{
+                        const cart = CoffeeCart.getCart() || [];
+                        cart.forEach(i=>{ i.marketplace = market; });
+                        CoffeeCart.saveCart(cart);
+                        renderCart();
+                    }catch(err){ console.error('apply market', err); }
+                });
+
+                // initialize visual state from cart if uniform
+                try{
+                    const cart = CoffeeCart.getCart() || [];
+                    const mk = cart.map(i=>i.marketplace).filter(Boolean);
+                    const uniq = Array.from(new Set(mk.map(s=>String(s).toLowerCase())));
+                    if(uniq.length === 1){
+                        const sel = uniq[0];
+                        buttons.forEach(b=>{ const selState = (b.dataset.market === sel); b.classList.toggle('selected', selState); b.setAttribute('aria-pressed', String(selState)); });
+                    }
+                }catch(e){/* ignore */}
+            }catch(e){ console.error('init marketplace buttons', e); }
+        })();
+
+        // Checkout flow
+        document.getElementById('checkout-btn').addEventListener('click', ()=>{
+            const cart = CoffeeCart.getCart(); const msgEl = document.getElementById('checkout-message'); msgEl.innerHTML = '';
+            // Require signup/login before allowing checkout
+            const user = getCurrentUser();
+            if(!user){
+                msgEl.innerHTML = '<div style="color:#b91c1c">Please sign up or log in to checkout. <a href="login/login.html">Log in</a></div>';
+                return;
+            }
+            const checkoutBtn = document.getElementById('checkout-btn');
+            if(!cart || cart.length === 0){ msgEl.innerHTML = '<div style="color:#b91c1c">Your cart is empty.</div>'; return; }
+            if(!selectedCartMethod){ msgEl.innerHTML = '<div style="color:#b91c1c">Please select a payment method before checking out.</div>'; return; }
+
+            // If GCash is selected, require number and account name before proceeding
+            if(selectedCartMethod === 'gcash'){
+                const numEl = document.getElementById('gcash-number');
+                const nameEl = document.getElementById('gcash-name');
+                const num = numEl ? String(numEl.value||'').trim() : '';
+                const acc = nameEl ? String(nameEl.value||'').trim() : '';
+                if(!num){ msgEl.innerHTML = '<div style="color:#b91c1c">Please enter your GCash number before checking out.</div>'; return; }
+                // basic number validation (allow +, spaces, digits)
+                if(!/^[0-9+ \-]{7,20}$/.test(num)) { msgEl.innerHTML = '<div style="color:#b91c1c">Please enter a valid GCash number (e.g. 09XXXXXXXXX).</div>'; return; }
+                if(!acc){ msgEl.innerHTML = '<div style="color:#b91c1c">Please enter the account name for your GCash.</div>'; return; }
+            }
+
+            // If Card is selected, require card number, expiry and CVV before proceeding
+            if(selectedCartMethod === 'card'){
+                const numEl = document.getElementById('card-number');
+                const expEl = document.getElementById('card-exp');
+                const cvvEl = document.getElementById('card-cvv');
+                const rawNum = numEl ? String(numEl.value||'').trim() : '';
+                const rawExp = expEl ? String(expEl.value||'').trim() : '';
+                const rawCvv = cvvEl ? String(cvvEl.value||'').trim() : '';
+                if(!rawNum){ msgEl.innerHTML = '<div style="color:#b91c1c">Please enter your card number before checking out.</div>'; return; }
+                const cleaned = rawNum.replace(/[^0-9]/g,'');
+                if(!/^[0-9]{13,19}$/.test(cleaned)){ msgEl.innerHTML = '<div style="color:#b91c1c">Please enter a valid card number (13-19 digits).</div>'; return; }
+                if(!luhnCheck(cleaned)){ msgEl.innerHTML = '<div style="color:#b91c1c">Card number appears invalid. Please verify the number.</div>'; return; }
+                if(!rawExp){ msgEl.innerHTML = '<div style="color:#b91c1c">Please enter the card expiration date (MM/YY).</div>'; return; }
+                // accept MM/YY or MM/YYYY
+                const m = rawExp.match(/^(0[1-9]|1[0-2])\/(\d{2}|\d{4})$/);
+                if(!m){ msgEl.innerHTML = '<div style="color:#b91c1c">Expiration must be in MM/YY format.</div>'; return; }
+                let month = parseInt(m[1],10); let year = parseInt(m[2],10); if(year < 100) year += 2000;
+                const expDate = new Date(year, month, 1); expDate.setHours(0,0,0,0);
+                const now = new Date(); now.setDate(1); now.setHours(0,0,0,0);
+                if(expDate <= now){ msgEl.innerHTML = '<div style="color:#b91c1c">Card appears expired. Please use a valid card.</div>'; return; }
+                if(!rawCvv){ msgEl.innerHTML = '<div style="color:#b91c1c">Please enter the CVV.</div>'; return; }
+                if(!/^[0-9]{3,4}$/.test(rawCvv)){ msgEl.innerHTML = '<div style="color:#b91c1c">Please enter a valid 3-4 digit CVV.</div>'; return; }
+            }
+
+            // ensure we have a shipping address for the user; prompt and save if missing
+            if(!user.address || !String(user.address).trim()){
+                const addrPrompt = prompt('Please enter your shipping address to complete the order:','');
+                if(!addrPrompt || !String(addrPrompt).trim()){
+                    msgEl.innerHTML = '<div style="color:#b91c1c">Please provide a shipping address to complete checkout.</div>';
+                    return;
+                }
+                user.address = String(addrPrompt).trim();
+                try{ setCurrentUser(user); }catch(e){ console.warn('Unable to persist address to localStorage', e); }
+            }
+
+            // capture total and order snapshot before clearing
+            const total = document.getElementById('summary-total').textContent;
+            const cartSnapshot = JSON.parse(JSON.stringify(cart));
+
+            // Immediately clear the cart so UI reflects the action
+            CoffeeCart.clearCart();
+            renderCart();
+
+            // disable checkout to avoid double clicks
+            checkoutBtn.disabled = true;
+            checkoutBtn.style.opacity = '0.7';
+
+            // show processing state
+            msgEl.innerHTML = '<div class="payment-success">Processing payment via ' + selectedCartMethod.toUpperCase() + '...</div>';
+
+            // simulate processing and then finalize order
+            setTimeout(()=>{
+                // build order object and capture marketplaces selected in cart (if any)
+                const order = { id: 'ord-' + Date.now(), date: new Date().toLocaleString(), total: total, method: selectedCartMethod, items: cartSnapshot };
+                // include user's address on the order for server/local receipts
+                try{ order.address = (user && user.address) ? user.address : ''; }catch(e){ order.address = ''; }
+                try{
+                    const mk = (cartSnapshot||[]).map(i=>i.marketplace).filter(Boolean);
+                    order.marketplaces = Array.from(new Set(mk.map(s=>String(s).toLowerCase())));
+                }catch(e){ order.marketplaces = []; }
+
+                // attach gcash details when provided
+                try{
+                    if(selectedCartMethod === 'gcash'){
+                        const numEl = document.getElementById('gcash-number');
+                        const nameEl = document.getElementById('gcash-name');
+                        order.gcash = { number: numEl ? (String(numEl.value||'').trim()) : '', name: nameEl ? (String(nameEl.value||'').trim()) : '' };
+                    }
+                    // attach card details (masked) when provided (do not store CVV)
+                    if(selectedCartMethod === 'card'){
+                        const numEl = document.getElementById('card-number');
+                        const expEl = document.getElementById('card-exp');
+                        const raw = numEl ? String(numEl.value||'').trim() : '';
+                        const cleaned = raw.replace(/[^0-9]/g,'');
+                        const last4 = cleaned.slice(-4);
+                        const masked = cleaned.length ? ('**** **** **** ' + last4) : '';
+                        order.card = { last4: last4, masked: masked, exp: expEl ? String(expEl.value||'') : '' };
+                    }
+                }catch(e){}
+
+                // try persisting order to server, then save locally for Recent Orders
+                (async function(){
+                    try {
+                        // attach current user id when present
+                        const cu = getCurrentUser(); if(cu && !order.userId) order.userId = cu.id; if(cu && cu.address) order.address = cu.address;
+                        const resp = await fetch('/coffee_haven/login/save_order.php', {
+                            method: 'POST', headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ items: order.items, total: parseFloat(order.total)||0, method: order.method, address: (order.address||null), marketplaces: order.marketplaces || [], gcash: (order.gcash||null), card: (order.card||null) })
+                        });
+                        const data = await resp.json().catch(()=>null);
+                        if(data && data.ok){ order.id = data.order_id || order.id; order.userId = data.user_id || order.userId; }
+                        // always store locally so profile can display recent orders
+                        saveOrder(order);
+                    } catch (err) {
+                        console.warn('Order POST failed, saving locally', err);
+                        saveOrder(order);
+                    }
+                })();
+
+                // ensure we have the current user for receipt display
+                let user = getCurrentUser() || { name: 'Guest' };
+
+                // show receipt in modal overlay
+                const overlay = document.getElementById('cart-receipt-overlay');
+                const content = document.getElementById('cart-receipt-content');
+                if(overlay && content){
+                    const itemsHtml = order.items.map(it=>`<li style="margin-bottom:6px">${it.name} — ${formatMoney(parseFloat(it.price)||0)} x ${it.quantity}</li>`).join('');
+                    content.innerHTML = `
+                        <div style="font-family: Arial, Helvetica, sans-serif; color:#2b1b10;">
+                                <style>
+                                .rcpt { max-width:680px; margin:0 auto; text-align:center }
+                                .rcpt-header{ display:flex; align-items:center; justify-content:space-between; gap:12px; border-bottom:1px solid #f1e6de;padding-bottom:12px;margin-bottom:12px }
+                                .rcpt-brand{ display:flex; gap:12px; align-items:center }
+                                .rcpt-brand img{ width:56px;height:56px;border-radius:10px;object-fit:cover; }
+                                .rcpt-title{ font-family:'Playfair Display', serif; font-size:20px; color:#3b2f2f; font-weight:700; }
+                                .rcpt-meta{ text-align:right; color:#7a5a43; font-size:13px }
+                                .rcpt-body{ background:linear-gradient(180deg,#fffaf6,#fff7f0); padding:12px;border-radius:8px; text-align:left }
+                                .rcpt-item{ display:flex; gap:12px; align-items:center; padding:8px 0; border-bottom:1px dashed #efe2d6 }
+                                .rcpt-item:last-child{ border-bottom:none }
+                                .rcpt-thumb{ width:56px; height:56px; border-radius:8px; overflow:hidden; background:#fff; display:flex;align-items:center;justify-content:center }
+                                .rcpt-thumb img{ width:100%; height:100%; object-fit:cover }
+                                .rcpt-name{ font-weight:700; color:#2b1b10 }
+                                .rcpt-qty{ color:#7a5a43; font-size:13px }
+                                .rcpt-price{ margin-left:auto; font-weight:800; color:#6b3e26 }
+                                .rcpt-footer{ margin-top:12px; display:flex; justify-content:space-between; align-items:center }
+                                .rcpt-pay{ background:#ffe7cc; color:#6b3e26; padding:8px 10px; border-radius:8px; font-weight:800; font-size:13px }
+                                .rcpt-thanks{ color:#7a5a43; font-size:13px }
+                                @media print{ .modal-overlay{ background:transparent !important } }
+                                @media print{ .rcpt-brand img{ width:40px !important; height:40px !important; } #rcpt-print{ display:none !important; } }
+                            </style>
+
+                            <div class="rcpt">
+                                        <div class="rcpt-header" style="justify-content:space-between;align-items:center;">
+                                            <div class="rcpt-brand" style="display:flex;align-items:center;gap:12px;">
+                                                <img src="https://i.imgur.com/OxQ011F.jpg" alt="Coffee Haven logo">
+                                                <div style="text-align:left">
+                                                    <div class="rcpt-title">Coffee Haven</div>
+                                                    <div style="font-size:12px;color:#8b6b52">Receipt</div>
+                                                </div>
+                                            </div>
+                                            <div class="rcpt-meta">${new Date().toLocaleString()}</div>
+                                        </div>
+
+                                <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:6px;font-size:14px;text-align:left">
+                                    <div><strong>Customer:</strong> ${user.name || 'Guest'}</div>
+                                    <div><strong>Address:</strong> ${user.address || 'Not provided'}</div>
+                                </div>
+
+                                <div style="margin-bottom:10px;font-size:14px;text-align:left;">
+                                    <strong>Product(s) bought:</strong>
+                                    <div style="margin-top:8px">${order.items.map(it=>`<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><img src="${it.img||''}" style="width:48px;height:48px;border-radius:6px;object-fit:cover"> <span style="font-weight:700">${it.name}</span> — <span style="color:#7a5a43">Qty: ${it.quantity}</span></div>`).join('')}</div>
+                                </div>
+                                <div style="margin-bottom:10px;font-size:13px;color:#7a5a43;text-align:left"><strong>Marketplaces:</strong> ${(order.marketplaces && order.marketplaces.length) ? order.marketplaces.map(s=>{ if(s==='tiktok') return 'TikTok'; if(s==='lazada') return 'Lazada'; if(s==='shopee') return 'Shopee'; return s; }).join(', ') : 'None'}</div>
+
+                                <div class="rcpt-body">
+                                                ${order.items.map(it=>`
+                                        <div class="rcpt-item">
+                                            <div style="flex:1; min-width:160px; text-align:left">
+                                                <div class="rcpt-name">${it.name}</div>
+                                                <div class="rcpt-qty">Qty: ${it.quantity}</div>
+                                            </div>
+                                            <div class="rcpt-price">${formatMoney(parseFloat(it.price)||0)}</div>
+                                        </div>
+                                    `).join('')}
+                                </div>
+
+                                <div class="rcpt-footer" style="align-items:center;gap:12px;flex-direction:column;">
+                                    <div style="width:100%;display:flex;justify-content:space-between;align-items:center;gap:12px;">
+                                        <div class="rcpt-thanks">Thank you for supporting small farms — enjoy your cup!</div>
+                                        <div style="display:flex;align-items:center;gap:8px">
+                                            <div style="font-size:13px;color:#7a5a43">Payment</div>
+                                                <div class="rcpt-pay">${order.method.toUpperCase()}</div>
+                                                ${order.method === 'gcash' ? `<div style="margin-left:12px;text-align:left;font-size:13px;color:#7a5a43;margin-top:8px"><strong>GCash Name:</strong> ${order.gcash && order.gcash.name ? order.gcash.name : ''}<br><strong>GCash Number:</strong> ${order.gcash && order.gcash.number ? order.gcash.number : ''}</div>` : ''}
+                                                ${order.method === 'card' ? `<div style="margin-left:12px;text-align:left;font-size:13px;color:#7a5a43;margin-top:8px"><strong>Card:</strong> ${order.card && order.card.masked ? order.card.masked : ''}<br><strong>Exp:</strong> ${order.card && order.card.exp ? order.card.exp : ''}</div>` : ''}
+                                            <button id="rcpt-print" style="background:#6b3e26;color:#fff;border:0;padding:8px 10px;border-radius:8px;cursor:pointer;font-weight:800">Print Receipt</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    // show and center
+                    overlay.style.display = 'flex';
+                    // ensure receipt content is centered (modal overlay is flex-centered already)
+                    // allow clicking outside the receipt to close
+                    overlay.addEventListener('click', function onOverlayClick(ev){ if(ev.target === overlay){ overlay.style.display = 'none'; overlay.removeEventListener('click', onOverlayClick); } });
+
+                    // attach print handler
+                    setTimeout(()=>{
+                        const printBtn = document.getElementById('rcpt-print');
+                        if(printBtn){
+                            printBtn.addEventListener('click', ()=>{
+                                const rcpt = content.querySelector('.rcpt');
+                                if(!rcpt) return;
+                                const w = window.open('','_blank');
+                                const html = `<html><head><title>Receipt ${order.id}</title><meta charset="utf-8"><style>body{font-family:Arial,Helvetica,sans-serif;padding:20px;color:#2b1b10} .rcpt{max-width:720px;margin:0 auto} @media print{ .rcpt-brand img{ width:40px !important; height:40px !important; } #rcpt-print{ display:none !important; } }</style></head><body>${rcpt.outerHTML}</body></html>`;
+                                w.document.write(html);
+                                w.document.close();
+                                w.focus();
+                                setTimeout(()=>{ w.print(); }, 300);
+                            });
+                        }
+                    }, 50);
+                }
+
+                // reset selection and UI
+                selectedCartMethod = null; if(payOptionsContainer) payOptionsContainer.querySelectorAll('.pay-btn').forEach(o=>o.classList.remove('selected'));
+                checkoutBtn.disabled = false; checkoutBtn.style.opacity = '';
+                msgEl.innerHTML = '';
+            }, 1000);
+        });
+
+        document.getElementById('clear-cart-btn').addEventListener('click', ()=>{
+            if(confirm('Clear all items from cart?')){ CoffeeCart.clearCart(); renderCart(); }
+        });
+
+        // Promo input removed — no promo handler
+
+        // initial render
+        renderCart();
+    </script>
+</body>
+</html>
